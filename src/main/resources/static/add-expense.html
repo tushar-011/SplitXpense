@@ -1,141 +1,272 @@
 <!DOCTYPE html>
+
 <html>
 <head>
+
     <meta charset="UTF-8">
-    <title>SplitXpence - Add Expense</title>
+
+    <title>
+        SplitXpence - Expense Management
+    </title>
+
 </head>
 
 <body>
 
     <h1>SplitXpence</h1>
+
     <h2>Add Expense</h2>
 
     <form action="/add-expense" method="post">
 
         <label>Group ID:</label>
-        <input type="number" name="groupId" required>
+
+        <input
+            type="number"
+            name="groupId"
+            required>
 
         <br><br>
 
         <label>Expense Title:</label>
-        <input type="text" name="title" required>
+
+        <input
+            type="text"
+            name="title"
+            required>
 
         <br><br>
 
         <label>Amount:</label>
-        <input type="number"
-               name="amount"
-               step="0.01"
-               required>
+
+        <input
+            type="number"
+            name="amount"
+            step="0.01"
+            required>
 
         <br><br>
 
         <label>Date:</label>
-        <input type="date"
-               name="expenseDate"
-               required>
+
+        <input
+            type="date"
+            name="expenseDate"
+            required>
 
         <br><br>
 
         <label>Category:</label>
 
         <select name="category" required>
-            <option value="Food">Food</option>
-            <option value="Travel">Travel</option>
-            <option value="Rent">Rent</option>
-            <option value="Shopping">Shopping</option>
-            <option value="Entertainment">Entertainment</option>
-            <option value="Other">Other</option>
+
+            <option value="Food">
+                Food
+            </option>
+
+            <option value="Travel">
+                Travel
+            </option>
+
+            <option value="Rent">
+                Rent
+            </option>
+
+            <option value="Shopping">
+                Shopping
+            </option>
+
+            <option value="Entertainment">
+                Entertainment
+            </option>
+
+            <option value="Other">
+                Other
+            </option>
+
         </select>
 
         <br><br>
 
         <label>Paid By (Email):</label>
-        <input type="email"
-               name="payerEmail"
-               required>
+
+        <input
+            type="email"
+            name="payerEmail"
+            required>
+
+        <br><br>
+
+        <label>
+            Participants (Emails):
+        </label>
+
+        <br>
+
+        <input
+            type="text"
+            name="participantEmails"
+            size="60"
+            placeholder="user1@mail.com, user2@mail.com"
+            required>
+
+        <br>
+
+        <small>
+            Separate multiple emails with commas.
+        </small>
 
         <br><br>
 
         <button type="submit">
-            Add Expense
+            Add Expense and Split
         </button>
 
     </form>
 
-    <br><br>
+
+    <hr>
+
 
     <h2>View Group Expenses</h2>
 
     <form action="/expenses" method="get">
 
         <label>Group ID:</label>
-        <input type="number"
-               name="groupId"
-               required>
+
+        <input
+            type="number"
+            name="groupId"
+            required>
 
         <button type="submit">
             View Expenses
         </button>
 
-        <hr>
+    </form>
 
-        <h2>Edit Expense</h2>
 
-        <form action="/edit-expense" method="post">
+    <hr>
 
-            <label>Expense ID:</label>
-            <input type="number" name="expenseId" required>
 
-            <br><br>
+    <h2>View Expense Split</h2>
 
-            <label>Title:</label>
-            <input type="text" name="title" required>
+    <form action="/expense-splits" method="get">
 
-            <br><br>
+        <label>Expense ID:</label>
 
-            <label>Amount:</label>
-            <input type="number" name="amount" step="0.01" required>
+        <input
+            type="number"
+            name="expenseId"
+            required>
 
-            <br><br>
+        <button type="submit">
+            View Split
+        </button>
 
-            <label>Date:</label>
-            <input type="date" name="expenseDate" required>
+    </form>
 
-            <br><br>
 
-            <label>Category:</label>
+    <hr>
 
-            <select name="category" required>
-                <option value="Food">Food</option>
-                <option value="Travel">Travel</option>
-                <option value="Rent">Rent</option>
-                <option value="Shopping">Shopping</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Other">Other</option>
-            </select>
 
-            <br><br>
+    <h2>Edit Expense</h2>
 
-            <button type="submit">
-                Update Expense
-            </button>
+    <form action="/edit-expense" method="post">
 
-        </form>
+        <label>Expense ID:</label>
 
-        <hr>
+        <input
+            type="number"
+            name="expenseId"
+            required>
 
-        <h2>Delete Expense</h2>
+        <br><br>
 
-        <form action="/delete-expense" method="post">
+        <label>Title:</label>
 
-            <label>Expense ID:</label>
-            <input type="number" name="expenseId" required>
+        <input
+            type="text"
+            name="title"
+            required>
 
-            <button type="submit">
-                Delete Expense
-            </button>
+        <br><br>
 
+        <label>Amount:</label>
+
+        <input
+            type="number"
+            name="amount"
+            step="0.01"
+            required>
+
+        <br><br>
+
+        <label>Date:</label>
+
+        <input
+            type="date"
+            name="expenseDate"
+            required>
+
+        <br><br>
+
+        <label>Category:</label>
+
+        <select name="category" required>
+
+            <option value="Food">
+                Food
+            </option>
+
+            <option value="Travel">
+                Travel
+            </option>
+
+            <option value="Rent">
+                Rent
+            </option>
+
+            <option value="Shopping">
+                Shopping
+            </option>
+
+            <option value="Entertainment">
+                Entertainment
+            </option>
+
+            <option value="Other">
+                Other
+            </option>
+
+        </select>
+
+        <br><br>
+
+        <button type="submit">
+            Update Expense
+        </button>
+
+    </form>
+
+
+    <hr>
+
+
+    <h2>Delete Expense</h2>
+
+    <form action="/delete-expense" method="post">
+
+        <label>Expense ID:</label>
+
+        <input
+            type="number"
+            name="expenseId"
+            required>
+
+        <button type="submit">
+            Delete Expense
+        </button>
 
     </form>
 

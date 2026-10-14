@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        SplitXpence - Balances
+    </title>
+
+</head>
+
+<body>
+
+    <h1>SplitXpence</h1>
+
+    <h2>Balance Management</h2>
+
+
+    <hr>
+
+
+    <h3>Group Balance</h3>
+
+    <form action="/group-balance" method="get">
+
+        <label>Group ID:</label>
+
+        <input
+            type="number"
+            name="groupId"
+            required>
+
+        <button type="submit">
+            View Group Balance
+        </button>
+
+    </form>
+
+
+    <hr>
+
+
+    <h3>My Balance</h3>
+
+    <form action="/my-balance" method="get">
+
+        <label>Group ID:</label>
+
+        <input
+            type="number"
+            name="groupId"
+            required>
+
+        <button type="submit">
+            View My Balance
+        </button>
+
+    </form>
+
+
+    <hr>
+
+
+    <h3>Who Owes Whom</h3>
+
+    <form action="/who-owes-whom" method="get">
+
+        <label>Group ID:</label>
+
+        <input
+            type="number"
+            name="groupId"
+            required>
+
+        <button type="submit">
+            Calculate
+        </button>
+
+    </form>
+
+</body>
+
+</html>
