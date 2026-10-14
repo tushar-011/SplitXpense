@@ -1,4 +1,4 @@
-package com.splitxpence;
+package com.splitxpence.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

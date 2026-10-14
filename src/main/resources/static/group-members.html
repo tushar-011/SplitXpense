@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SplitXpence - Group Members</title>
+</head>
+
+<body>
+
+    <h1>SplitXpence</h1>
+
+    <h2>Add Member</h2>
+
+    <form action="/add-member" method="post">
+
+        <label>Group ID:</label>
+        <input type="number" name="groupId" required>
+
+        <br><br>
+
+        <label>User Email:</label>
+        <input type="email" name="email" required>
+
+        <br><br>
+
+        <button type="submit">Add Member</button>
+
+    </form>
+
+    <br>
+
+    <h2>View Members</h2>
+
+    <form action="/group-members" method="get">
+
+        <label>Group ID:</label>
+        <input type="number" name="groupId" required>
+
+        <button type="submit">View Members</button>
+
+    </form>
+
+    <br>
+
+    <h2>Remove Member</h2>
+
+    <form action="/remove-member" method="post">
+
+        <label>Group ID:</label>
+        <input type="number" name="groupId" required>
+
+        <br><br>
+
+        <label>User ID:</label>
+        <input type="number" name="userId" required>
+
+        <br><br>
+
+        <button type="submit">Remove Member</button>
+
+    </form>
+
+</body>
+</html>

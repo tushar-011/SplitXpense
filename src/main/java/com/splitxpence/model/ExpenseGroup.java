@@ -1,5 +1,6 @@
-package com.splitxpence;
+package com.splitxpence.model;
 
+import com.splitxpence.model.User;
 import jakarta.persistence.*;
 
 @Entity

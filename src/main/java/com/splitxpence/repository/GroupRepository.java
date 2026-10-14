@@ -1,5 +1,6 @@
-package com.splitxpence;
+package com.splitxpence.repository;
 
+import com.splitxpence.model.ExpenseGroup;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

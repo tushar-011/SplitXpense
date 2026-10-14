@@ -1,5 +1,7 @@
-package com.splitxpence;
+package com.splitxpence.controller;
 
+import com.splitxpence.repository.UserRepository;
+import com.splitxpence.model.User;
 import jakarta.servlet.http.HttpSession;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.GetMapping;
