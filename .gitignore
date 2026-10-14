@@ -1,0 +1,11 @@
+target/
+nbproject/private/
+
+*.class
+*.log
+
+.idea/
+.vscode/
+.DS_Store
+
+src/main/resources/application.properties
