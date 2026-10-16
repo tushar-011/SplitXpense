@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        SplitXpence - Groups
+    </title>
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>SplitXpence</h1>
+
+    <nav>
+        <a href="/dashboard.html">Dashboard</a>
+        <a href="/groups.html">Groups</a>
+        <a href="/add-expense.html">Expenses</a>
+        <a href="/balance.html">Balances</a>
+        <a href="/settlement.html">Settlements</a>
+        <a href="/reports.html">Reports</a>
+        <a href="/profile.html">Profile</a>
+        <a href="/logout">Logout</a>
+    </nav>
+
+</header>
+
+
+<div class="container">
+
+    <div class="page-title">
+
+        <h2>Groups</h2>
+
+        <p>
+            Create groups, manage them and add expenses.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Create New Group</h3>
+        </div>
+
+
+        <form id="createGroupForm"
+              action="/create-group"
+              method="post">
+
+            <div class="form-group">
+
+                <label>Group Name</label>
+
+                <input type="text"
+                       name="name"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Description</label>
+
+                <input type="text"
+                       name="description">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Add Friends</label>
+
+                <select name="friendIds"
+                        id="friendSelect"
+                        multiple
+                        size="5">
+                </select>
+
+                <small>
+                    Hold Ctrl to select multiple friends.
+                </small>
+
+            </div>
+
+
+            <button type="submit">
+                Create Group
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h3>Your Groups</h3>
+
+            <button onclick="loadGroups()">
+                Refresh
+            </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Creator</th>
+                    <th>Actions</th>
+                </tr>
+
+                </thead>
+
+
+                <tbody id="groupTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Quick Add Expense</h3>
+        </div>
+
+
+        <form id="quickExpenseForm"
+              action="/add-expense"
+              method="post">
+
+            <div class="form-group">
+
+                <label>Group</label>
+
+                <select name="groupId"
+                        id="quickGroup"
+                        required>
+                </select>
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Title</label>
+
+                    <input type="text"
+                           name="title"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Amount</label>
+
+                    <input type="number"
+                           name="amount"
+                           step="0.01"
+                           min="0.01"
+                           required>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Date</label>
+
+                    <input type="date"
+                           name="expenseDate"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Category</label>
+
+                    <select name="category"
+                            required>
+
+                        <option value="Food">Food</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Rent">Rent</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Other">Other</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Paid By</label>
+
+                <input type="email"
+                       name="payerEmail"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Participants</label>
+
+                <input type="text"
+                       name="participantEmails"
+                       placeholder="user1@mail.com, user2@mail.com"
+                       required>
+
+            </div>
+
+
+            <button type="submit">
+                Add Expense
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="/js/app.js"></script>
+
+
+<script>
+
+function loadFriends() {
+
+    fetch("/friends")
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(friends => {
+
+            const select =
+                document.getElementById(
+                    "friendSelect"
+                );
+
+            select.innerHTML = "";
+
+            friends.forEach(friend => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    friend.userId;
+
+                option.textContent =
+                    friend.name
+                    + " ("
+                    + friend.email
+                    + ")";
+
+                select.appendChild(
+                    option
+                );
+
+            });
+
+        });
+}
+
+
+function loadGroups() {
+
+    fetch("/groups")
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(groups => {
+
+            const table =
+                document.getElementById(
+                    "groupTable"
+                );
+
+            const quick =
+                document.getElementById(
+                    "quickGroup"
+                );
+
+            table.innerHTML = "";
+            quick.innerHTML = "";
+
+
+            groups.forEach(group => {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>${group.id}</td>
+
+                    <td>
+                        <strong>
+                            ${group.name}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${group.description || "-"}
+                    </td>
+
+                    <td>
+                        ${group.createdBy.name}
+                    </td>
+
+                    <td>
+
+                        <div class="button-row">
+
+                            <button
+                                onclick="selectGroup(
+                                    ${group.id},
+                                    '${group.name}'
+                                )">
+
+                                Select
+
+                            </button>
+
+
+                            <button
+                                onclick="editGroup(
+                                    ${group.id},
+                                    '${group.name}',
+                                    '${group.description || ""}'
+                                )">
+
+                                Edit
+
+                            </button>
+
+
+                            <button
+                                class="button-danger"
+                                onclick="deleteGroup(
+                                    ${group.id}
+                                )">
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    </td>
+                `;
+
+
+                table.appendChild(row);
+
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    group.id;
+
+                option.textContent =
+                    group.name
+                    + " (ID: "
+                    + group.id
+                    + ")";
+
+                quick.appendChild(
+                    option
+                );
+
+            });
+
+        });
+}
+
+
+function selectGroup(
+        id,
+        name) {
+
+    localStorage.setItem(
+        "selectedGroupId",
+        id
+    );
+
+    localStorage.setItem(
+        "selectedGroupName",
+        name
+    );
+
+    document.getElementById(
+        "quickGroup"
+    ).value = id;
+
+
+    showResultModal(
+        "Group Selected",
+        name + " is now selected."
+    );
+}
+
+
+function editGroup(
+        id,
+        currentName,
+        currentDescription) {
+
+    const name =
+        prompt(
+            "Enter new group name:",
+            currentName
+        );
+
+
+    if (name === null
+            || name.trim() === "") {
+
+        return;
+    }
+
+
+    const description =
+        prompt(
+            "Enter description:",
+            currentDescription
+        );
+
+
+    if (description === null) {
+        return;
+    }
+
+
+    const data =
+        new URLSearchParams();
+
+
+    data.append(
+        "groupId",
+        id
+    );
+
+    data.append(
+        "name",
+        name
+    );
+
+    data.append(
+        "description",
+        description
+    );
+
+
+    fetch(
+        "/edit-group",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded"
+            },
+
+            body: data
+        }
+    )
+
+        .then(response =>
+            response.text()
+        )
+
+        .then(result => {
+
+            showResultModal(
+                "Edit Group",
+                result
+            );
+
+            if (result.includes(
+                    "successfully"
+                )) {
+
+                loadGroups();
+            }
+
+        });
+}
+
+
+function deleteGroup(id) {
+
+    if (!confirm(
+        "Delete this group?"
+    )) {
+
+        return;
+    }
+
+
+    const data =
+        new URLSearchParams();
+
+
+    data.append(
+        "groupId",
+        id
+    );
+
+
+    fetch(
+        "/delete-group",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded"
+            },
+
+            body: data
+        }
+    )
+
+        .then(response =>
+            response.text()
+        )
+
+        .then(result => {
+
+            showResultModal(
+                "Delete Group",
+                result
+            );
+
+
+            if (result.includes(
+                    "successfully"
+                )) {
+
+                loadGroups();
+            }
+
+        });
+}
+
+
+document.getElementById(
+    "createGroupForm"
+).addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+        submitFormAndShow(
+            this,
+            "Create Group",
+            function(result) {
+
+                if (
+                    String(result)
+                    .includes(
+                        "successfully"
+                    )
+                ) {
+
+                    document.getElementById(
+                        "createGroupForm"
+                    ).reset();
+
+                    loadGroups();
+                }
+
+            }
+        );
+
+    }
+);
+
+
+document.getElementById(
+    "quickExpenseForm"
+).addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+        submitFormAndShow(
+            this,
+            "Add Expense"
+        );
+
+    }
+);
+
+
+loadFriends();
+loadGroups();
+
+</script>
+
+</body>
+
+</html>

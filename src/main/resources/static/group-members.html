@@ -1,64 +1,453 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>SplitXpence - Group Members</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 
+<header>
+
     <h1>SplitXpence</h1>
 
-    <h2>Add Member</h2>
+    <nav>
+        <a href="/dashboard.html">Dashboard</a>
+        <a href="/groups.html">Groups</a>
+        <a href="/add-expense.html">Expenses</a>
+        <a href="/balance.html">Balances</a>
+        <a href="/settlement.html">Settlements</a>
+        <a href="/reports.html">Reports</a>
+        <a href="/profile.html">Profile</a>
+        <a href="/logout">Logout</a>
+    </nav>
 
-    <form action="/add-member" method="post">
+</header>
 
-        <label>Group ID:</label>
-        <input type="number" name="groupId" required>
 
-        <br><br>
+<div class="container">
 
-        <label>User Email:</label>
-        <input type="email" name="email" required>
+    <div class="page-title">
 
-        <br><br>
+        <h2>Group Members</h2>
 
-        <button type="submit">Add Member</button>
+        <p>
+            Add, view and remove members from your expense groups.
+        </p>
 
-    </form>
+    </div>
 
-    <br>
 
-    <h2>View Members</h2>
+    <div id="message"
+         class="message">
+    </div>
 
-    <form action="/group-members" method="get">
 
-        <label>Group ID:</label>
-        <input type="number" name="groupId" required>
+    <div class="card">
 
-        <button type="submit">View Members</button>
+        <div class="card-header">
+            <h3>Select Group</h3>
+        </div>
 
-    </form>
+        <div class="form-group">
 
-    <br>
+            <label>Group</label>
 
-    <h2>Remove Member</h2>
+            <select id="groupSelect"
+                    onchange="groupChanged()">
+            </select>
 
-    <form action="/remove-member" method="post">
+        </div>
 
-        <label>Group ID:</label>
-        <input type="number" name="groupId" required>
+    </div>
 
-        <br><br>
 
-        <label>User ID:</label>
-        <input type="number" name="userId" required>
+    <div class="card">
 
-        <br><br>
+        <div class="card-header">
+            <h3>Add Member</h3>
+        </div>
 
-        <button type="submit">Remove Member</button>
+        <form id="addMemberForm">
 
-    </form>
+            <div class="form-group">
+
+                <label>User Email</label>
+
+                <input type="email"
+                       id="memberEmail"
+                       placeholder="member@example.com"
+                       required>
+
+            </div>
+
+            <button type="submit">
+                Add Member
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h3>Current Members</h3>
+
+            <button onclick="loadMembers()">
+                Refresh
+            </button>
+
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="memberTable">
+                </tbody>
+
+            </table>
+
+            <div id="emptyMembers"
+                 class="empty-message"
+                 style="display:none;">
+
+                No members have been added yet.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const groupSelect =
+    document.getElementById("groupSelect");
+
+const selectedGroup =
+    localStorage.getItem("selectedGroupId");
+
+
+function showMessage(text, success) {
+
+    const message =
+        document.getElementById("message");
+
+    message.innerText = text;
+
+    message.className =
+        success
+        ? "message message-success"
+        : "message message-error";
+
+    message.style.display =
+        "block";
+}
+
+
+function loadGroups() {
+
+    fetch("/groups")
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(groups => {
+
+            groupSelect.innerHTML = "";
+
+            groups.forEach(group => {
+
+                const option =
+                    document.createElement("option");
+
+                option.value =
+                    group.id;
+
+                option.textContent =
+                    group.name
+                    + " (ID: "
+                    + group.id
+                    + ")";
+
+                if (String(group.id)
+                        === selectedGroup) {
+
+                    option.selected = true;
+                }
+
+                groupSelect.appendChild(
+                    option
+                );
+
+            });
+
+            if (groups.length > 0) {
+
+                groupChanged();
+            }
+
+        });
+}
+
+
+function groupChanged() {
+
+    localStorage.setItem(
+        "selectedGroupId",
+        groupSelect.value
+    );
+
+    const selectedOption =
+        groupSelect.options[
+            groupSelect.selectedIndex
+        ];
+
+    localStorage.setItem(
+        "selectedGroupName",
+        selectedOption.text
+    );
+
+    loadMembers();
+}
+
+
+function loadMembers() {
+
+    const groupId =
+        groupSelect.value;
+
+    if (!groupId) {
+        return;
+    }
+
+    fetch(
+        "/group-members?groupId="
+        + groupId
+    )
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(members => {
+
+            const table =
+                document.getElementById(
+                    "memberTable"
+                );
+
+            const empty =
+                document.getElementById(
+                    "emptyMembers"
+                );
+
+            table.innerHTML = "";
+
+            if (members.length === 0) {
+
+                empty.style.display =
+                    "block";
+
+                return;
+            }
+
+            empty.style.display =
+                "none";
+
+            members.forEach(member => {
+
+                const row =
+                    document.createElement("tr");
+
+                row.innerHTML = `
+
+                    <td>
+                        ${member.user.id}
+                    </td>
+
+                    <td>
+                        ${member.user.name}
+                    </td>
+
+                    <td>
+                        ${member.user.email}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="button-danger"
+                            onclick="removeMember(
+                                ${member.user.id}
+                            )">
+
+                            Remove
+
+                        </button>
+
+                    </td>
+                `;
+
+                table.appendChild(row);
+
+            });
+
+        });
+}
+
+
+document.getElementById(
+    "addMemberForm"
+).addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+        const data =
+            new URLSearchParams();
+
+        data.append(
+            "groupId",
+            groupSelect.value
+        );
+
+        data.append(
+            "email",
+            document.getElementById(
+                "memberEmail"
+            ).value
+        );
+
+        fetch(
+            "/add-member",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/x-www-form-urlencoded"
+                },
+
+                body: data
+            }
+        )
+
+            .then(response =>
+                response.text()
+            )
+
+            .then(result => {
+
+                const success =
+                    result.includes(
+                        "successfully"
+                    );
+
+                showMessage(
+                    result,
+                    success
+                );
+
+                if (success) {
+
+                    document.getElementById(
+                        "memberEmail"
+                    ).value = "";
+
+                    loadMembers();
+                }
+
+            });
+
+    }
+);
+
+
+function removeMember(userId) {
+
+    if (!confirm(
+        "Remove this member from the group?"
+    )) {
+        return;
+    }
+
+    const data =
+        new URLSearchParams();
+
+    data.append(
+        "groupId",
+        groupSelect.value
+    );
+
+    data.append(
+        "userId",
+        userId
+    );
+
+    fetch(
+        "/remove-member",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded"
+            },
+
+            body: data
+        }
+    )
+
+        .then(response =>
+            response.text()
+        )
+
+        .then(result => {
+
+            const success =
+                result.includes(
+                    "successfully"
+                );
+
+            showMessage(
+                result,
+                success
+            );
+
+            if (success) {
+                loadMembers();
+            }
+
+        });
+}
+
+
+loadGroups();
+
+</script>
 
 </body>
 </html>

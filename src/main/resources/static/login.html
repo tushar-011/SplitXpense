@@ -1,34 +1,178 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
     <meta charset="UTF-8">
-    <title>SplitXpence - Login</title>
+
+    <title>
+        SplitXpence - Login
+    </title>
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+
 </head>
 
 <body>
 
-    <h1>SplitXpence</h1>
-    <h2>Login</h2>
+<div class="auth-page">
 
-    <form action="/login" method="post">
+    <div class="auth-container">
 
-        <label>Email:</label>
-        <input type="email" name="email" required>
+        <div class="auth-brand">
 
-        <br><br>
+            <h1>SplitXpence</h1>
 
-        <label>Password:</label>
-        <input type="password" name="password" required>
+            <p>
+                Simple group expense management
+            </p>
 
-        <br><br>
+        </div>
 
-        <button type="submit">Login</button>
 
-    </form>
+        <div class="auth-card">
 
-    <br>
+            <h2>Login</h2>
 
-    <a href="/register.html">Create Account</a>
+            <p class="auth-subtitle">
+                Sign in to access your groups and expenses.
+            </p>
+
+
+            <div id="message"
+                 class="message">
+            </div>
+
+
+            <form id="loginForm">
+
+                <div class="form-group">
+
+                    <label>Email</label>
+
+                    <input type="email"
+                           id="email"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Password</label>
+
+                    <input type="password"
+                           id="password"
+                           required>
+
+                </div>
+
+
+                <button type="submit">
+                    Login
+                </button>
+
+            </form>
+
+
+            <div class="auth-footer">
+
+                Don't have an account?
+
+                <a href="/register.html">
+                    Create Account
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.getElementById(
+    "loginForm"
+).addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+        const data =
+            new URLSearchParams();
+
+        data.append(
+            "email",
+            document.getElementById(
+                "email"
+            ).value
+        );
+
+        data.append(
+            "password",
+            document.getElementById(
+                "password"
+            ).value
+        );
+
+
+        fetch(
+            "/login",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/x-www-form-urlencoded"
+                },
+
+                body: data
+            }
+        )
+
+            .then(response =>
+                response.text()
+            )
+
+            .then(result => {
+
+                if (result.includes(
+                    "Login successful"
+                )) {
+
+                    window.location.href =
+                        "/dashboard.html";
+
+                    return;
+                }
+
+
+                const message =
+                    document.getElementById(
+                        "message"
+                    );
+
+                message.innerText =
+                    result;
+
+                message.className =
+                    "message message-error";
+
+                message.style.display =
+                    "block";
+
+            });
+
+    }
+);
+
+</script>
 
 </body>
+
 </html>

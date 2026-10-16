@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        SplitXpence - Profile
+    </title>
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>SplitXpence</h1>
+
+    <nav>
+        <a href="/dashboard.html">Dashboard</a>
+        <a href="/groups.html">Groups</a>
+        <a href="/add-expense.html">Expenses</a>
+        <a href="/balance.html">Balances</a>
+        <a href="/settlement.html">Settlements</a>
+        <a href="/reports.html">Reports</a>
+        <a href="/profile.html">Profile</a>
+        <a href="/logout">Logout</a>
+    </nav>
+
+</header>
+
+
+<div class="container">
+
+    <div class="page-title">
+
+        <h2>User Profile</h2>
+
+        <p>
+            Manage your account, friends and groups.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Account Details</h3>
+        </div>
+
+
+        <table>
+
+            <tbody>
+
+            <tr>
+                <th>User ID</th>
+                <td id="userId"></td>
+            </tr>
+
+            <tr>
+                <th>Name</th>
+                <td id="userName"></td>
+            </tr>
+
+            <tr>
+                <th>Email</th>
+                <td id="userEmail"></td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Add Friend</h3>
+        </div>
+
+
+        <form id="friendForm"
+              action="/add-friend"
+              method="post">
+
+            <div class="form-group">
+
+                <label>Friend Email</label>
+
+                <input type="email"
+                       name="email"
+                       required>
+
+            </div>
+
+
+            <button type="submit">
+                Add Friend
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>My Friends</h3>
+        </div>
+
+
+        <table>
+
+            <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+
+            </thead>
+
+            <tbody id="friendTable">
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>My Groups</h3>
+        </div>
+
+
+        <table>
+
+            <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+
+            </thead>
+
+            <tbody id="groupTable">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<script src="/js/app.js"></script>
+
+
+<script>
+
+function loadProfile() {
+
+    fetch("/profile")
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(profile => {
+
+            document.getElementById(
+                "userId"
+            ).innerText =
+                profile.id;
+
+            document.getElementById(
+                "userName"
+            ).innerText =
+                profile.name;
+
+            document.getElementById(
+                "userEmail"
+            ).innerText =
+                profile.email;
+
+        });
+}
+
+
+function loadFriends() {
+
+    fetch("/friends")
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(friends => {
+
+            const table =
+                document.getElementById(
+                    "friendTable"
+                );
+
+            table.innerHTML = "";
+
+
+            friends.forEach(friend => {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${friend.userId}
+                    </td>
+
+                    <td>
+                        ${friend.name}
+                    </td>
+
+                    <td>
+                        ${friend.email}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="button-danger"
+                            onclick="removeFriend(
+                                ${friend.relationId}
+                            )">
+
+                            Remove
+
+                        </button>
+
+                    </td>
+                `;
+
+
+                table.appendChild(row);
+
+            });
+
+        });
+}
+
+
+function loadGroups() {
+
+    fetch("/groups")
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(groups => {
+
+            const table =
+                document.getElementById(
+                    "groupTable"
+                );
+
+            table.innerHTML = "";
+
+
+            groups.forEach(group => {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>${group.id}</td>
+
+                    <td>${group.name}</td>
+
+                    <td>
+                        ${group.description || "-"}
+                    </td>
+
+                    <td>
+
+                        <div class="button-row">
+
+                            <button
+                                onclick="editGroup(
+                                    ${group.id},
+                                    '${group.name}',
+                                    '${group.description || ""}'
+                                )">
+
+                                Edit
+
+                            </button>
+
+                            <button
+                                class="button-danger"
+                                onclick="deleteGroup(
+                                    ${group.id}
+                                )">
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    </td>
+                `;
+
+
+                table.appendChild(row);
+
+            });
+
+        });
+}
+
+
+document.getElementById(
+    "friendForm"
+).addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+        submitFormAndShow(
+            this,
+            "Add Friend",
+            function(result) {
+
+                if (
+                    String(result)
+                    .includes(
+                        "successfully"
+                    )
+                ) {
+
+                    document.getElementById(
+                        "friendForm"
+                    ).reset();
+
+                    loadFriends();
+                }
+
+            }
+        );
+
+    }
+);
+
+
+function removeFriend(
+        relationId) {
+
+    const data =
+        new URLSearchParams();
+
+    data.append(
+        "relationId",
+        relationId
+    );
+
+
+    fetch(
+        "/remove-friend",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded"
+            },
+
+            body: data
+        }
+    )
+
+        .then(response =>
+            response.text()
+        )
+
+        .then(result => {
+
+            showResultModal(
+                "Remove Friend",
+                result
+            );
+
+            if (
+                result.includes(
+                    "successfully"
+                )
+            ) {
+
+                loadFriends();
+            }
+
+        });
+}
+
+
+function editGroup(
+        id,
+        oldName,
+        oldDescription) {
+
+    const name =
+        prompt(
+            "New group name:",
+            oldName
+        );
+
+    if (!name) {
+        return;
+    }
+
+
+    const description =
+        prompt(
+            "Description:",
+            oldDescription
+        );
+
+    if (description === null) {
+        return;
+    }
+
+
+    const data =
+        new URLSearchParams();
+
+    data.append("groupId", id);
+    data.append("name", name);
+    data.append(
+        "description",
+        description
+    );
+
+
+    fetch(
+        "/edit-group",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded"
+            },
+
+            body: data
+        }
+    )
+
+        .then(response =>
+            response.text()
+        )
+
+        .then(result => {
+
+            showResultModal(
+                "Edit Group",
+                result
+            );
+
+            if (
+                result.includes(
+                    "successfully"
+                )
+            ) {
+
+                loadGroups();
+            }
+
+        });
+}
+
+
+function deleteGroup(id) {
+
+    if (!confirm(
+        "Delete this group?"
+    )) {
+        return;
+    }
+
+
+    const data =
+        new URLSearchParams();
+
+    data.append(
+        "groupId",
+        id
+    );
+
+
+    fetch(
+        "/delete-group",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded"
+            },
+
+            body: data
+        }
+    )
+
+        .then(response =>
+            response.text()
+        )
+
+        .then(result => {
+
+            showResultModal(
+                "Delete Group",
+                result
+            );
+
+            if (
+                result.includes(
+                    "successfully"
+                )
+            ) {
+
+                loadGroups();
+            }
+
+        });
+}
+
+
+loadProfile();
+loadFriends();
+loadGroups();
+
+</script>
+
+</body>
+
+</html>

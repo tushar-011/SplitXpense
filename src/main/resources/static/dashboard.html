@@ -1,225 +1,218 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
-
     <meta charset="UTF-8">
-
     <title>SplitXpence - Dashboard</title>
 
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 
+<header>
     <h1>SplitXpence</h1>
 
-    <h2 id="welcome">
-        Dashboard
-    </h2>
+    <nav>
+        <a href="/dashboard.html">Dashboard</a>
+        <a href="/groups.html">Groups</a>
+        <a href="/add-expense.html">Expenses</a>
+        <a href="/balance.html">Balances</a>
+        <a href="/settlement.html">Settlements</a>
+        <a href="/reports.html">Reports</a>
+        <a href="/profile.html">Profile</a>
+        <a href="/logout">Logout</a>
+    </nav>
+</header>
 
-    <hr>
+<div class="container">
 
-    <h3>Total Groups</h3>
+    <div class="page-title">
+        <h2 id="welcome">Dashboard</h2>
+        <p>Overview of your groups, expenses, balances, and recent activity.</p>
+    </div>
 
-    <p id="totalGroups">
-        Loading...
-    </p>
+    <div class="dashboard-grid">
 
+        <div class="stat-card">
+            <div class="stat-label">Total Groups</div>
+            <div class="stat-value" id="totalGroups">0</div>
+        </div>
 
-    <h3>Total Expenses</h3>
+        <div class="stat-card">
+            <div class="stat-label">Total Expenses</div>
+            <div class="stat-value">
+                ₹<span id="totalExpenses">0</span>
+            </div>
+        </div>
 
-    <p>
-        ₹<span id="totalExpenses">
-            Loading...
-        </span>
-    </p>
+        <div class="stat-card">
+            <div class="stat-label">Amount You Owe</div>
+            <div class="stat-value">
+                ₹<span id="amountYouOwe">0</span>
+            </div>
+        </div>
 
+        <div class="stat-card">
+            <div class="stat-label">Amount Owed To You</div>
+            <div class="stat-value">
+                ₹<span id="amountOwedToYou">0</span>
+            </div>
+        </div>
 
-    <h3>Amount You Owe</h3>
+    </div>
 
-    <p>
-        ₹<span id="amountYouOwe">
-            Loading...
-        </span>
-    </p>
+    <div class="card">
 
+        <div class="card-header">
+            <h3>Recent Expenses</h3>
 
-    <h3>Amount Owed To You</h3>
+            <a class="button-link"
+               href="/add-expense.html">
+                Manage Expenses
+            </a>
+        </div>
 
-    <p>
-        ₹<span id="amountOwedToYou">
-            Loading...
-        </span>
-    </p>
+        <div class="table-wrapper">
 
+            <table>
 
-    <hr>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Expense</th>
+                        <th>Group</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Paid By</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
 
+                <tbody id="expenseTable">
+                </tbody>
 
-    <h2>Recent Expenses</h2>
+            </table>
 
-    <table border="1"
-           cellpadding="8">
+            <div id="emptyExpenses"
+                 class="empty-message"
+                 style="display: none;">
+                No recent expenses found.
+            </div>
 
-        <thead>
+        </div>
 
-            <tr>
+    </div>
 
-                <th>ID</th>
-                <th>Expense</th>
-                <th>Group</th>
-                <th>Category</th>
-                <th>Amount</th>
-                <th>Paid By</th>
-                <th>Date</th>
+    <div class="card">
 
-            </tr>
+        <div class="card-header">
+            <h3>Quick Actions</h3>
+        </div>
 
-        </thead>
+        <div class="button-row">
 
-        <tbody id="expenseTable">
+            <a class="button-link"
+               href="/groups.html">
+                Manage Groups
+            </a>
 
-        </tbody>
+            <a class="button-link"
+               href="/add-expense.html">
+                Add Expense
+            </a>
 
-    </table>
+            <a class="button-link"
+               href="/balance.html">
+                View Balances
+            </a>
 
+            <a class="button-link"
+               href="/settlement.html">
+                Record Settlement
+            </a>
 
-    <hr>
+        </div>
 
+    </div>
 
-    <h2>Quick Links</h2>
+</div>
 
-    <p>
-        <a href="/create-group.html">
-            Create Group
-        </a>
-    </p>
+<script>
 
-    <p>
-        <a href="/group-members.html">
-            Group Members
-        </a>
-    </p>
+fetch("/dashboard-data")
 
-    <p>
-        <a href="/add-expense.html">
-            Manage Expenses
-        </a>
-    </p>
+    .then(response => {
 
-    <p>
-        <a href="/balance.html">
-            View Balances
-        </a>
-    </p>
+        if (!response.ok) {
+            throw new Error();
+        }
 
-    <p>
-        <a href="/settlement.html">
-            Settlements
-        </a>
-    </p>
+        return response.json();
+    })
 
-    <p>
-        <a href="/logout">
-            Logout
-        </a>
-    </p>
+    .then(data => {
 
+        document.getElementById("welcome").innerText =
+            "Welcome, " + data.userName;
 
-    <script>
+        document.getElementById("totalGroups").innerText =
+            data.totalGroups;
 
-        fetch("/dashboard-data")
+        document.getElementById("totalExpenses").innerText =
+            data.totalExpenses;
 
-            .then(response =>
-                response.json()
-            )
+        document.getElementById("amountYouOwe").innerText =
+            data.amountYouOwe;
 
-            .then(data => {
+        document.getElementById("amountOwedToYou").innerText =
+            data.amountOwedToYou;
 
-                document.getElementById(
-                    "welcome"
-                ).innerText =
-                    "Welcome, "
-                    + data.userName;
+        const table =
+            document.getElementById("expenseTable");
 
-                document.getElementById(
-                    "totalGroups"
-                ).innerText =
-                    data.totalGroups;
+        const emptyMessage =
+            document.getElementById("emptyExpenses");
 
-                document.getElementById(
-                    "totalExpenses"
-                ).innerText =
-                    data.totalExpenses;
+        table.innerHTML = "";
 
-                document.getElementById(
-                    "amountYouOwe"
-                ).innerText =
-                    data.amountYouOwe;
+        if (data.recentExpenses.length === 0) {
 
-                document.getElementById(
-                    "amountOwedToYou"
-                ).innerText =
-                    data.amountOwedToYou;
+            emptyMessage.style.display = "block";
 
-                const table =
-                    document.getElementById(
-                        "expenseTable"
-                    );
+        } else {
 
-                data.recentExpenses.forEach(
-                    expense => {
+            emptyMessage.style.display = "none";
 
-                        const row =
-                            document.createElement(
-                                "tr"
-                            );
+            data.recentExpenses.forEach(expense => {
 
-                        row.innerHTML =
-                            "<td>"
-                            + expense.id
-                            + "</td>"
+                const row =
+                    document.createElement("tr");
 
-                            + "<td>"
-                            + expense.title
-                            + "</td>"
+                row.innerHTML = `
+                    <td>${expense.id}</td>
+                    <td>${expense.title}</td>
+                    <td>${expense.group}</td>
+                    <td>${expense.category}</td>
+                    <td>₹${expense.amount}</td>
+                    <td>${expense.paidBy}</td>
+                    <td>${expense.date}</td>
+                `;
 
-                            + "<td>"
-                            + expense.group
-                            + "</td>"
-
-                            + "<td>"
-                            + expense.category
-                            + "</td>"
-
-                            + "<td>₹"
-                            + expense.amount
-                            + "</td>"
-
-                            + "<td>"
-                            + expense.paidBy
-                            + "</td>"
-
-                            + "<td>"
-                            + expense.date
-                            + "</td>";
-
-                        table.appendChild(row);
-                    }
-                );
-            })
-
-            .catch(error => {
-
-                document.getElementById(
-                    "welcome"
-                ).innerText =
-                    "Please login first";
-
+                table.appendChild(row);
             });
+        }
 
-    </script>
+    })
+
+    .catch(() => {
+
+        window.location.href =
+            "/login.html";
+
+    });
+
+</script>
 
 </body>
 
