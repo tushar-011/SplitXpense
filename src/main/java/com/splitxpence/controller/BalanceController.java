@@ -3,12 +3,14 @@ package com.splitxpence.controller;
 import com.splitxpence.model.Expense;
 import com.splitxpence.model.ExpenseGroup;
 import com.splitxpence.model.ExpenseSplit;
+import com.splitxpence.model.Settlement;
 import com.splitxpence.model.User;
 
 import com.splitxpence.repository.ExpenseRepository;
 import com.splitxpence.repository.ExpenseSplitRepository;
 import com.splitxpence.repository.GroupMemberRepository;
 import com.splitxpence.repository.GroupRepository;
+import com.splitxpence.repository.SettlementRepository;
 import com.splitxpence.repository.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -29,24 +31,23 @@ public class BalanceController {
     private final GroupRepository groupRepository;
     private final GroupMemberRepository groupMemberRepository;
     private final UserRepository userRepository;
+    private final SettlementRepository settlementRepository;
 
     public BalanceController(
             ExpenseRepository expenseRepository,
             ExpenseSplitRepository expenseSplitRepository,
             GroupRepository groupRepository,
             GroupMemberRepository groupMemberRepository,
-            UserRepository userRepository) {
+            UserRepository userRepository,
+            SettlementRepository settlementRepository) {
 
         this.expenseRepository = expenseRepository;
         this.expenseSplitRepository = expenseSplitRepository;
         this.groupRepository = groupRepository;
         this.groupMemberRepository = groupMemberRepository;
         this.userRepository = userRepository;
+        this.settlementRepository = settlementRepository;
     }
-
-    // ---------------------------------------------------------
-    // GROUP BALANCE
-    // ---------------------------------------------------------
 
     @GetMapping("/group-balance")
     public Object groupBalance(
@@ -67,7 +68,8 @@ public class BalanceController {
             return "Group not found";
         }
 
-        ExpenseGroup group = groupOptional.get();
+        ExpenseGroup group =
+                groupOptional.get();
 
         boolean isCreator =
                 group.getCreatedBy()
@@ -101,11 +103,8 @@ public class BalanceController {
 
             if (userOptional.isPresent()) {
 
-                String name =
-                        userOptional.get().getName();
-
                 result.put(
-                        name,
+                        userOptional.get().getName(),
                         round(entry.getValue())
                 );
             }
@@ -113,11 +112,6 @@ public class BalanceController {
 
         return result;
     }
-
-
-    // ---------------------------------------------------------
-    // CURRENT USER BALANCE
-    // ---------------------------------------------------------
 
     @GetMapping("/my-balance")
     public Object myBalance(
@@ -135,9 +129,11 @@ public class BalanceController {
                 calculateBalances(groupId);
 
         double balance =
-                balances.getOrDefault(
-                        loggedInUserId,
-                        0.0
+                round(
+                        balances.getOrDefault(
+                                loggedInUserId,
+                                0.0
+                        )
                 );
 
         Optional<User> userOptional =
@@ -150,8 +146,6 @@ public class BalanceController {
 
         String name =
                 userOptional.get().getName();
-
-        balance = round(balance);
 
         if (balance > 0) {
 
@@ -170,11 +164,6 @@ public class BalanceController {
         return name
                 + " has no pending balance";
     }
-
-
-    // ---------------------------------------------------------
-    // WHO OWES WHOM
-    // ---------------------------------------------------------
 
     @GetMapping("/who-owes-whom")
     public Object whoOwesWhom(
@@ -262,14 +251,13 @@ public class BalanceController {
             if (debtorUser.isPresent()
                     && creditorUser.isPresent()) {
 
-                String message =
+                result.add(
                         debtorUser.get().getName()
                         + " owes "
                         + creditorUser.get().getName()
                         + " ₹"
-                        + round(payment);
-
-                result.add(message);
+                        + round(payment)
+                );
             }
 
             debtor.amount -= payment;
@@ -285,18 +273,11 @@ public class BalanceController {
         }
 
         if (result.isEmpty()) {
-            result.add(
-                    "All balances are settled"
-            );
+            result.add("All balances are settled");
         }
 
         return result;
     }
-
-
-    // ---------------------------------------------------------
-    // BALANCE CALCULATION
-    // ---------------------------------------------------------
 
     private Map<Long, Double> calculateBalances(
             Long groupId) {
@@ -310,15 +291,9 @@ public class BalanceController {
 
         for (Expense expense : expenses) {
 
-            User payer =
-                    expense.getPaidBy();
-
             Long payerId =
-                    payer.getId();
+                    expense.getPaidBy().getId();
 
-            /*
-             * Payer paid the full expense.
-             */
             balances.put(
                     payerId,
                     balances.getOrDefault(
@@ -332,9 +307,6 @@ public class BalanceController {
                             .findByExpenseId(
                                     expense.getId());
 
-            /*
-             * Each participant owes their share.
-             */
             for (ExpenseSplit split : splits) {
 
                 Long userId =
@@ -350,24 +322,46 @@ public class BalanceController {
             }
         }
 
+        List<Settlement> settlements =
+                settlementRepository
+                        .findByGroupId(groupId);
+
+        for (Settlement settlement : settlements) {
+
+            Long fromUserId =
+                    settlement.getPaidFrom().getId();
+
+            Long toUserId =
+                    settlement.getPaidTo().getId();
+
+            double amount =
+                    settlement.getAmount();
+
+            balances.put(
+                    fromUserId,
+                    balances.getOrDefault(
+                            fromUserId,
+                            0.0
+                    ) + amount
+            );
+
+            balances.put(
+                    toUserId,
+                    balances.getOrDefault(
+                            toUserId,
+                            0.0
+                    ) - amount
+            );
+        }
+
         return balances;
     }
-
-
-    // ---------------------------------------------------------
-    // ROUND MONEY
-    // ---------------------------------------------------------
 
     private double round(double value) {
 
         return Math.round(value * 100.0)
                 / 100.0;
     }
-
-
-    // ---------------------------------------------------------
-    // SMALL HELPER CLASS
-    // ---------------------------------------------------------
 
     private static class PersonBalance {
 

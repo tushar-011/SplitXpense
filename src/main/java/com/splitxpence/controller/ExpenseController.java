@@ -70,7 +70,8 @@ public class ExpenseController {
             return "Group not found";
         }
 
-        ExpenseGroup group = groupOptional.get();
+        ExpenseGroup group =
+                groupOptional.get();
 
         boolean isCreator =
                 group.getCreatedBy()
@@ -96,7 +97,8 @@ public class ExpenseController {
             return "Payer not found";
         }
 
-        User payer = payerOptional.get();
+        User payer =
+                payerOptional.get();
 
         boolean payerIsCreator =
                 group.getCreatedBy()
@@ -154,17 +156,14 @@ public class ExpenseController {
             if (!participantIsCreator
                     && !participantIsMember) {
 
-                return email
-                        + " is not part of this group";
+                return email + " is not part of this group";
             }
 
             if (!addedUserIds.contains(
                     participant.getId())) {
 
                 participants.add(participant);
-
-                addedUserIds.add(
-                        participant.getId());
+                addedUserIds.add(participant.getId());
             }
         }
 
@@ -199,8 +198,7 @@ public class ExpenseController {
             expenseSplitRepository.save(split);
         }
 
-        return "Expense added successfully. "
-                + "Each participant owes: "
+        return "Expense added successfully. Each participant owes: "
                 + String.format("%.2f", shareAmount);
     }
 
@@ -216,8 +214,7 @@ public class ExpenseController {
             return List.of();
         }
 
-        return expenseRepository
-                .findByGroupId(groupId);
+        return expenseRepository.findByGroupId(groupId);
     }
 
     @GetMapping("/expense-splits")
@@ -319,5 +316,96 @@ public class ExpenseController {
         expenseRepository.deleteById(expenseId);
 
         return "Expense deleted successfully";
+    }
+
+    @GetMapping("/search-expenses")
+    public List<Expense> searchExpenses(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) Long groupId,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate,
+            HttpSession session) {
+
+        Long loggedInUserId =
+                (Long) session.getAttribute("userId");
+
+        if (loggedInUserId == null) {
+            return List.of();
+        }
+
+        if (groupId != null
+                && title != null
+                && !title.isBlank()) {
+
+            return expenseRepository
+                    .findByGroupIdAndTitleContainingIgnoreCase(
+                            groupId,
+                            title
+                    );
+        }
+
+        if (groupId != null
+                && category != null
+                && !category.isBlank()) {
+
+            return expenseRepository
+                    .findByGroupIdAndCategoryIgnoreCase(
+                            groupId,
+                            category
+                    );
+        }
+
+        if (groupId != null
+                && startDate != null
+                && !startDate.isBlank()
+                && endDate != null
+                && !endDate.isBlank()) {
+
+            return expenseRepository
+                    .findByGroupIdAndExpenseDateBetween(
+                            groupId,
+                            LocalDate.parse(startDate),
+                            LocalDate.parse(endDate)
+                    );
+        }
+
+        if (title != null
+                && !title.isBlank()) {
+
+            return expenseRepository
+                    .findByTitleContainingIgnoreCase(
+                            title
+                    );
+        }
+
+        if (category != null
+                && !category.isBlank()) {
+
+            return expenseRepository
+                    .findByCategoryIgnoreCase(
+                            category
+                    );
+        }
+
+        if (startDate != null
+                && !startDate.isBlank()
+                && endDate != null
+                && !endDate.isBlank()) {
+
+            return expenseRepository
+                    .findByExpenseDateBetween(
+                            LocalDate.parse(startDate),
+                            LocalDate.parse(endDate)
+                    );
+        }
+
+        if (groupId != null) {
+
+            return expenseRepository
+                    .findByGroupId(groupId);
+        }
+
+        return expenseRepository.findAll();
     }
 }

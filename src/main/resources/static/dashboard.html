@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>SplitXpence - Dashboard</title>
+
+</head>
+
+<body>
+
+    <h1>SplitXpence</h1>
+
+    <h2 id="welcome">
+        Dashboard
+    </h2>
+
+    <hr>
+
+    <h3>Total Groups</h3>
+
+    <p id="totalGroups">
+        Loading...
+    </p>
+
+
+    <h3>Total Expenses</h3>
+
+    <p>
+        ₹<span id="totalExpenses">
+            Loading...
+        </span>
+    </p>
+
+
+    <h3>Amount You Owe</h3>
+
+    <p>
+        ₹<span id="amountYouOwe">
+            Loading...
+        </span>
+    </p>
+
+
+    <h3>Amount Owed To You</h3>
+
+    <p>
+        ₹<span id="amountOwedToYou">
+            Loading...
+        </span>
+    </p>
+
+
+    <hr>
+
+
+    <h2>Recent Expenses</h2>
+
+    <table border="1"
+           cellpadding="8">
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Expense</th>
+                <th>Group</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Paid By</th>
+                <th>Date</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="expenseTable">
+
+        </tbody>
+
+    </table>
+
+
+    <hr>
+
+
+    <h2>Quick Links</h2>
+
+    <p>
+        <a href="/create-group.html">
+            Create Group
+        </a>
+    </p>
+
+    <p>
+        <a href="/group-members.html">
+            Group Members
+        </a>
+    </p>
+
+    <p>
+        <a href="/add-expense.html">
+            Manage Expenses
+        </a>
+    </p>
+
+    <p>
+        <a href="/balance.html">
+            View Balances
+        </a>
+    </p>
+
+    <p>
+        <a href="/settlement.html">
+            Settlements
+        </a>
+    </p>
+
+    <p>
+        <a href="/logout">
+            Logout
+        </a>
+    </p>
+
+
+    <script>
+
+        fetch("/dashboard-data")
+
+            .then(response =>
+                response.json()
+            )
+
+            .then(data => {
+
+                document.getElementById(
+                    "welcome"
+                ).innerText =
+                    "Welcome, "
+                    + data.userName;
+
+                document.getElementById(
+                    "totalGroups"
+                ).innerText =
+                    data.totalGroups;
+
+                document.getElementById(
+                    "totalExpenses"
+                ).innerText =
+                    data.totalExpenses;
+
+                document.getElementById(
+                    "amountYouOwe"
+                ).innerText =
+                    data.amountYouOwe;
+
+                document.getElementById(
+                    "amountOwedToYou"
+                ).innerText =
+                    data.amountOwedToYou;
+
+                const table =
+                    document.getElementById(
+                        "expenseTable"
+                    );
+
+                data.recentExpenses.forEach(
+                    expense => {
+
+                        const row =
+                            document.createElement(
+                                "tr"
+                            );
+
+                        row.innerHTML =
+                            "<td>"
+                            + expense.id
+                            + "</td>"
+
+                            + "<td>"
+                            + expense.title
+                            + "</td>"
+
+                            + "<td>"
+                            + expense.group
+                            + "</td>"
+
+                            + "<td>"
+                            + expense.category
+                            + "</td>"
+
+                            + "<td>₹"
+                            + expense.amount
+                            + "</td>"
+
+                            + "<td>"
+                            + expense.paidBy
+                            + "</td>"
+
+                            + "<td>"
+                            + expense.date
+                            + "</td>";
+
+                        table.appendChild(row);
+                    }
+                );
+            })
+
+            .catch(error => {
+
+                document.getElementById(
+                    "welcome"
+                ).innerText =
+                    "Please login first";
+
+            });
+
+    </script>
+
+</body>
+
+</html>

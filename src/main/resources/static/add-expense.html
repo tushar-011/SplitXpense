@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
 
     <meta charset="UTF-8">
@@ -20,45 +21,104 @@
     <form action="/add-expense" method="post">
 
         <label>Group ID:</label>
-
-        <input
-            type="number"
-            name="groupId"
-            required>
+        <input type="number" name="groupId" required>
 
         <br><br>
 
         <label>Expense Title:</label>
-
-        <input
-            type="text"
-            name="title"
-            required>
+        <input type="text" name="title" required>
 
         <br><br>
 
         <label>Amount:</label>
-
-        <input
-            type="number"
-            name="amount"
-            step="0.01"
-            required>
+        <input type="number"
+               name="amount"
+               step="0.01"
+               required>
 
         <br><br>
 
         <label>Date:</label>
-
-        <input
-            type="date"
-            name="expenseDate"
-            required>
+        <input type="date"
+               name="expenseDate"
+               required>
 
         <br><br>
 
         <label>Category:</label>
 
         <select name="category" required>
+
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>
+            <option value="Rent">Rent</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Other">Other</option>
+
+        </select>
+
+        <br><br>
+
+        <label>Paid By (Email):</label>
+        <input type="email"
+               name="payerEmail"
+               required>
+
+        <br><br>
+
+        <label>Participants (Emails):</label>
+
+        <br>
+
+        <input type="text"
+               name="participantEmails"
+               size="60"
+               placeholder="user1@mail.com, user2@mail.com"
+               required>
+
+        <br>
+
+        <small>
+            Separate multiple emails with commas.
+        </small>
+
+        <br><br>
+
+        <button type="submit">
+            Add Expense and Split
+        </button>
+
+    </form>
+
+
+    <hr>
+
+
+    <h2>Search & Filter Expenses</h2>
+
+    <form action="/search-expenses" method="get">
+
+        <label>Title:</label>
+        <input type="text"
+               name="title"
+               placeholder="Dinner">
+
+        <br><br>
+
+        <label>Group ID:</label>
+        <input type="number"
+               name="groupId">
+
+        <br><br>
+
+        <label>Category:</label>
+
+        <select name="category">
+
+            <option value="">
+                All Categories
+            </option>
 
             <option value="Food">
                 Food
@@ -88,38 +148,22 @@
 
         <br><br>
 
-        <label>Paid By (Email):</label>
+        <label>Start Date:</label>
 
-        <input
-            type="email"
-            name="payerEmail"
-            required>
+        <input type="date"
+               name="startDate">
 
         <br><br>
 
-        <label>
-            Participants (Emails):
-        </label>
+        <label>End Date:</label>
 
-        <br>
-
-        <input
-            type="text"
-            name="participantEmails"
-            size="60"
-            placeholder="user1@mail.com, user2@mail.com"
-            required>
-
-        <br>
-
-        <small>
-            Separate multiple emails with commas.
-        </small>
+        <input type="date"
+               name="endDate">
 
         <br><br>
 
         <button type="submit">
-            Add Expense and Split
+            Search / Filter
         </button>
 
     </form>
@@ -134,10 +178,9 @@
 
         <label>Group ID:</label>
 
-        <input
-            type="number"
-            name="groupId"
-            required>
+        <input type="number"
+               name="groupId"
+               required>
 
         <button type="submit">
             View Expenses
@@ -155,10 +198,9 @@
 
         <label>Expense ID:</label>
 
-        <input
-            type="number"
-            name="expenseId"
-            required>
+        <input type="number"
+               name="expenseId"
+               required>
 
         <button type="submit">
             View Split
@@ -175,39 +217,31 @@
     <form action="/edit-expense" method="post">
 
         <label>Expense ID:</label>
-
-        <input
-            type="number"
-            name="expenseId"
-            required>
+        <input type="number"
+               name="expenseId"
+               required>
 
         <br><br>
 
         <label>Title:</label>
-
-        <input
-            type="text"
-            name="title"
-            required>
+        <input type="text"
+               name="title"
+               required>
 
         <br><br>
 
         <label>Amount:</label>
-
-        <input
-            type="number"
-            name="amount"
-            step="0.01"
-            required>
+        <input type="number"
+               name="amount"
+               step="0.01"
+               required>
 
         <br><br>
 
         <label>Date:</label>
-
-        <input
-            type="date"
-            name="expenseDate"
-            required>
+        <input type="date"
+               name="expenseDate"
+               required>
 
         <br><br>
 
@@ -215,29 +249,12 @@
 
         <select name="category" required>
 
-            <option value="Food">
-                Food
-            </option>
-
-            <option value="Travel">
-                Travel
-            </option>
-
-            <option value="Rent">
-                Rent
-            </option>
-
-            <option value="Shopping">
-                Shopping
-            </option>
-
-            <option value="Entertainment">
-                Entertainment
-            </option>
-
-            <option value="Other">
-                Other
-            </option>
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>
+            <option value="Rent">Rent</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Other">Other</option>
 
         </select>
 
@@ -259,10 +276,9 @@
 
         <label>Expense ID:</label>
 
-        <input
-            type="number"
-            name="expenseId"
-            required>
+        <input type="number"
+               name="expenseId"
+               required>
 
         <button type="submit">
             Delete Expense
@@ -271,4 +287,5 @@
     </form>
 
 </body>
+
 </html>
