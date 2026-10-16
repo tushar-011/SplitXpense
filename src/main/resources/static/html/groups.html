@@ -1,87 +1,65 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
     <meta charset="UTF-8">
-
-    <title>
-        SplitXpence - Groups
-    </title>
-
-    <link rel="stylesheet"
-          href="/css/style.css">
-
+    <title>SplitXpence - Groups</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 
 <header>
-
-    <h1>SplitXpence</h1>
+    <h1>💸 SplitXpence</h1>
 
     <nav>
-        <a href="/dashboard.html">Dashboard</a>
-        <a href="/groups.html">Groups</a>
-        <a href="/add-expense.html">Expenses</a>
-        <a href="/balance.html">Balances</a>
-        <a href="/settlement.html">Settlements</a>
-        <a href="/reports.html">Reports</a>
-        <a href="/profile.html">Profile</a>
-        <a href="/logout">Logout</a>
+        <a href="/html/dashboard.html">🏠 Dashboard</a>
+        <a href="/html/groups.html">👥 Groups</a>
+        <a href="/html/add-expense.html">💳 Expenses</a>
+        <a href="/html/balance.html">⚖️ Balances</a>
+        <a href="/html/settlement.html">🤝 Settlements</a>
+        <a href="/html/reports.html">📊 Reports</a>
+        <a href="/html/profile.html">👤 Profile</a>
+        <a href="/logout">🚪 Logout</a>
     </nav>
-
 </header>
-
 
 <div class="container">
 
     <div class="page-title">
-
-        <h2>Groups</h2>
-
-        <p>
-            Create groups, manage them and add expenses.
-        </p>
-
+        <h2>👥 Groups</h2>
+        <p>Create groups, add friends, and manage shared expenses together.</p>
     </div>
-
 
     <div class="card">
 
         <div class="card-header">
-            <h3>Create New Group</h3>
+            <h3>✨ Create New Group</h3>
         </div>
-
 
         <form id="createGroupForm"
               action="/create-group"
               method="post">
 
             <div class="form-group">
-
                 <label>Group Name</label>
 
                 <input type="text"
                        name="name"
+                       placeholder="Goa Trip 🌴"
                        required>
-
             </div>
 
-
             <div class="form-group">
-
                 <label>Description</label>
 
                 <input type="text"
-                       name="description">
-
+                       name="description"
+                       placeholder="Weekend trip expenses">
             </div>
-
 
             <div class="form-group">
 
-                <label>Add Friends</label>
+                <label>👯 Add Friends</label>
 
                 <select name="friendIds"
                         id="friendSelect"
@@ -95,35 +73,29 @@
 
             </div>
 
-
             <button type="submit">
-                Create Group
+                ➕ Create Group
             </button>
 
         </form>
 
     </div>
 
-
     <div class="card">
 
         <div class="card-header">
-
-            <h3>Your Groups</h3>
+            <h3>🗂️ Your Groups</h3>
 
             <button onclick="loadGroups()">
-                Refresh
+                🔄 Refresh
             </button>
-
         </div>
-
 
         <div class="table-wrapper">
 
             <table>
 
                 <thead>
-
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
@@ -131,26 +103,29 @@
                     <th>Creator</th>
                     <th>Actions</th>
                 </tr>
-
                 </thead>
 
-
-                <tbody id="groupTable">
-                </tbody>
+                <tbody id="groupTable"></tbody>
 
             </table>
+
+            <div id="emptyGroups"
+                 class="empty-message"
+                 style="display:none;">
+
+                ✨ No groups yet. Create your first one above.
+
+            </div>
 
         </div>
 
     </div>
 
-
     <div class="card">
 
         <div class="card-header">
-            <h3>Quick Add Expense</h3>
+            <h3>⚡ Quick Add Expense</h3>
         </div>
-
 
         <form id="quickExpenseForm"
               action="/add-expense"
@@ -167,22 +142,18 @@
 
             </div>
 
-
             <div class="form-grid">
 
                 <div class="form-group">
-
-                    <label>Title</label>
+                    <label>Expense Title</label>
 
                     <input type="text"
                            name="title"
+                           placeholder="Dinner 🍕"
                            required>
-
                 </div>
 
-
                 <div class="form-group">
-
                     <label>Amount</label>
 
                     <input type="number"
@@ -190,71 +161,57 @@
                            step="0.01"
                            min="0.01"
                            required>
-
                 </div>
 
             </div>
 
-
             <div class="form-grid">
 
                 <div class="form-group">
-
                     <label>Date</label>
 
                     <input type="date"
                            name="expenseDate"
                            required>
-
                 </div>
-
 
                 <div class="form-group">
 
                     <label>Category</label>
 
-                    <select name="category"
-                            required>
-
-                        <option value="Food">Food</option>
-                        <option value="Travel">Travel</option>
-                        <option value="Rent">Rent</option>
-                        <option value="Shopping">Shopping</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Other">Other</option>
-
+                    <select name="category" required>
+                        <option value="Food">🍕 Food</option>
+                        <option value="Travel">✈️ Travel</option>
+                        <option value="Rent">🏠 Rent</option>
+                        <option value="Shopping">🛍️ Shopping</option>
+                        <option value="Entertainment">🎬 Entertainment</option>
+                        <option value="Other">💸 Other</option>
                     </select>
 
                 </div>
 
             </div>
 
-
             <div class="form-group">
-
                 <label>Paid By</label>
 
                 <input type="email"
                        name="payerEmail"
+                       placeholder="payer@mail.com"
                        required>
-
             </div>
 
-
             <div class="form-group">
-
                 <label>Participants</label>
 
                 <input type="text"
                        name="participantEmails"
                        placeholder="user1@mail.com, user2@mail.com"
                        required>
-
             </div>
 
-
             <button type="submit">
-                Add Expense
+                💳 Add Expense
             </button>
 
         </form>
@@ -263,9 +220,7 @@
 
 </div>
 
-
 <script src="/js/app.js"></script>
-
 
 <script>
 
@@ -273,28 +228,21 @@ function loadFriends() {
 
     fetch("/friends")
 
-        .then(response =>
-            response.json()
-        )
+        .then(response => response.json())
 
         .then(friends => {
 
             const select =
-                document.getElementById(
-                    "friendSelect"
-                );
+                document.getElementById("friendSelect");
 
             select.innerHTML = "";
 
             friends.forEach(friend => {
 
                 const option =
-                    document.createElement(
-                        "option"
-                    );
+                    document.createElement("option");
 
-                option.value =
-                    friend.userId;
+                option.value = friend.userId;
 
                 option.textContent =
                     friend.name
@@ -302,9 +250,7 @@ function loadFriends() {
                     + friend.email
                     + ")";
 
-                select.appendChild(
-                    option
-                );
+                select.appendChild(option);
 
             });
 
@@ -316,42 +262,41 @@ function loadGroups() {
 
     fetch("/groups")
 
-        .then(response =>
-            response.json()
-        )
+        .then(response => response.json())
 
         .then(groups => {
 
             const table =
-                document.getElementById(
-                    "groupTable"
-                );
+                document.getElementById("groupTable");
 
             const quick =
-                document.getElementById(
-                    "quickGroup"
-                );
+                document.getElementById("quickGroup");
+
+            const empty =
+                document.getElementById("emptyGroups");
 
             table.innerHTML = "";
             quick.innerHTML = "";
 
+            if (groups.length === 0) {
+
+                empty.style.display = "block";
+                return;
+            }
+
+            empty.style.display = "none";
 
             groups.forEach(group => {
 
                 const row =
-                    document.createElement(
-                        "tr"
-                    );
-
+                    document.createElement("tr");
 
                 row.innerHTML = `
 
-                    <td>${group.id}</td>
+                    <td>#${group.id}</td>
 
                     <td>
-                        <strong>
-                            ${group.name}
-                        </strong>
+                        <strong>${group.name}</strong>
                     </td>
 
                     <td>
@@ -359,44 +304,33 @@ function loadGroups() {
                     </td>
 
                     <td>
-                        ${group.createdBy.name}
+                        👤 ${group.createdBy.name}
                     </td>
 
                     <td>
 
                         <div class="button-row">
 
-                            <button
-                                onclick="selectGroup(
-                                    ${group.id},
-                                    '${group.name}'
-                                )">
-
-                                Select
-
+                            <button onclick="selectGroup(
+                                ${group.id},
+                                '${group.name}'
+                            )">
+                                ✅ Select
                             </button>
 
-
-                            <button
-                                onclick="editGroup(
-                                    ${group.id},
-                                    '${group.name}',
-                                    '${group.description || ""}'
-                                )">
-
-                                Edit
-
+                            <button onclick="editGroup(
+                                ${group.id},
+                                '${group.name}',
+                                '${group.description || ""}'
+                            )">
+                                ✏️ Edit
                             </button>
 
-
-                            <button
-                                class="button-danger"
-                                onclick="deleteGroup(
-                                    ${group.id}
-                                )">
-
-                                Delete
-
+                            <button class="button-danger"
+                                    onclick="deleteGroup(
+                                        ${group.id}
+                                    )">
+                                🗑️ Delete
                             </button>
 
                         </div>
@@ -404,17 +338,12 @@ function loadGroups() {
                     </td>
                 `;
 
-
                 table.appendChild(row);
 
-
                 const option =
-                    document.createElement(
-                        "option"
-                    );
+                    document.createElement("option");
 
-                option.value =
-                    group.id;
+                option.value = group.id;
 
                 option.textContent =
                     group.name
@@ -422,9 +351,7 @@ function loadGroups() {
                     + group.id
                     + ")";
 
-                quick.appendChild(
-                    option
-                );
+                quick.appendChild(option);
 
             });
 
@@ -432,9 +359,7 @@ function loadGroups() {
 }
 
 
-function selectGroup(
-        id,
-        name) {
+function selectGroup(id, name) {
 
     localStorage.setItem(
         "selectedGroupId",
@@ -450,10 +375,9 @@ function selectGroup(
         "quickGroup"
     ).value = id;
 
-
     showResultModal(
-        "Group Selected",
-        name + " is now selected."
+        "✅ Group Selected",
+        name + " is now your active group."
     );
 }
 
@@ -469,13 +393,9 @@ function editGroup(
             currentName
         );
 
-
-    if (name === null
-            || name.trim() === "") {
-
+    if (!name) {
         return;
     }
-
 
     const description =
         prompt(
@@ -483,31 +403,16 @@ function editGroup(
             currentDescription
         );
 
-
     if (description === null) {
         return;
     }
 
-
     const data =
         new URLSearchParams();
 
-
-    data.append(
-        "groupId",
-        id
-    );
-
-    data.append(
-        "name",
-        name
-    );
-
-    data.append(
-        "description",
-        description
-    );
-
+    data.append("groupId", id);
+    data.append("name", name);
+    data.append("description", description);
 
     fetch(
         "/edit-group",
@@ -523,21 +428,16 @@ function editGroup(
         }
     )
 
-        .then(response =>
-            response.text()
-        )
+        .then(response => response.text())
 
         .then(result => {
 
             showResultModal(
-                "Edit Group",
+                "✏️ Edit Group",
                 result
             );
 
-            if (result.includes(
-                    "successfully"
-                )) {
-
+            if (result.includes("successfully")) {
                 loadGroups();
             }
 
@@ -548,22 +448,18 @@ function editGroup(
 function deleteGroup(id) {
 
     if (!confirm(
-        "Delete this group?"
+        "Are you sure you want to delete this group?"
     )) {
-
         return;
     }
 
-
     const data =
         new URLSearchParams();
-
 
     data.append(
         "groupId",
         id
     );
-
 
     fetch(
         "/delete-group",
@@ -579,22 +475,16 @@ function deleteGroup(id) {
         }
     )
 
-        .then(response =>
-            response.text()
-        )
+        .then(response => response.text())
 
         .then(result => {
 
             showResultModal(
-                "Delete Group",
+                "🗑️ Delete Group",
                 result
             );
 
-
-            if (result.includes(
-                    "successfully"
-                )) {
-
+            if (result.includes("successfully")) {
                 loadGroups();
             }
 
@@ -612,14 +502,12 @@ document.getElementById(
 
         submitFormAndShow(
             this,
-            "Create Group",
+            "✨ Create Group",
             function(result) {
 
                 if (
                     String(result)
-                    .includes(
-                        "successfully"
-                    )
+                    .includes("successfully")
                 ) {
 
                     document.getElementById(
@@ -646,7 +534,7 @@ document.getElementById(
 
         submitFormAndShow(
             this,
-            "Add Expense"
+            "💳 Add Expense"
         );
 
     }
@@ -659,5 +547,4 @@ loadGroups();
 </script>
 
 </body>
-
 </html>

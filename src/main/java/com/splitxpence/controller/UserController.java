@@ -19,14 +19,12 @@ public class UserController {
 
     private final UserRepository userRepository;
 
-
     public UserController(
             UserRepository userRepository) {
 
         this.userRepository =
                 userRepository;
     }
-
 
     @PostMapping("/register")
     public String registerUser(
@@ -37,12 +35,10 @@ public class UserController {
         Optional<User> existingUser =
                 userRepository.findByEmail(email);
 
-
         if (existingUser.isPresent()) {
 
             return "Email already registered";
         }
-
 
         User user =
                 new User(
@@ -51,13 +47,10 @@ public class UserController {
                         password
                 );
 
-
         userRepository.save(user);
-
 
         return "User registered successfully";
     }
-
 
     @PostMapping("/login")
     public String login(
@@ -68,16 +61,13 @@ public class UserController {
         Optional<User> userOptional =
                 userRepository.findByEmail(email);
 
-
         if (userOptional.isEmpty()) {
 
             return "User not found";
         }
 
-
         User user =
                 userOptional.get();
-
 
         if (!user.getPassword()
                 .equals(password)) {
@@ -85,23 +75,19 @@ public class UserController {
             return "Incorrect password";
         }
 
-
         session.setAttribute(
                 "userId",
                 user.getId()
         );
-
 
         session.setAttribute(
                 "userName",
                 user.getName()
         );
 
-
         return "Login successful. Welcome "
                 + user.getName();
     }
-
 
     @GetMapping("/logout")
     public void logout(
@@ -112,7 +98,7 @@ public class UserController {
         session.invalidate();
 
         response.sendRedirect(
-                "/login.html"
+                "/html/login.html"
         );
     }
 }

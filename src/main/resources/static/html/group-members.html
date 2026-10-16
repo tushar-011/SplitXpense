@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SplitXpence - Group Members</title>
+    <title>SplitXpence - Members</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -11,44 +11,41 @@
 
 <header>
 
-    <h1>SplitXpence</h1>
+    <h1>💸 SplitXpence</h1>
 
     <nav>
-        <a href="/dashboard.html">Dashboard</a>
-        <a href="/groups.html">Groups</a>
-        <a href="/add-expense.html">Expenses</a>
-        <a href="/balance.html">Balances</a>
-        <a href="/settlement.html">Settlements</a>
-        <a href="/reports.html">Reports</a>
-        <a href="/profile.html">Profile</a>
-        <a href="/logout">Logout</a>
+        <a href="/html/dashboard.html">🏠 Dashboard</a>
+        <a href="/html/groups.html">👥 Groups</a>
+        <a href="/html/add-expense.html">💳 Expenses</a>
+        <a href="/html/balance.html">⚖️ Balances</a>
+        <a href="/html/settlement.html">🤝 Settlements</a>
+        <a href="/html/reports.html">📊 Reports</a>
+        <a href="/html/profile.html">👤 Profile</a>
+        <a href="/logout">🚪 Logout</a>
     </nav>
 
 </header>
-
 
 <div class="container">
 
     <div class="page-title">
 
-        <h2>Group Members</h2>
+        <h2>👯 Group Members</h2>
 
         <p>
-            Add, view and remove members from your expense groups.
+            Add people, remove people, keep the squad organised.
         </p>
 
     </div>
-
 
     <div id="message"
          class="message">
     </div>
 
-
     <div class="card">
 
         <div class="card-header">
-            <h3>Select Group</h3>
+            <h3>👥 Select Group</h3>
         </div>
 
         <div class="form-group">
@@ -63,11 +60,10 @@
 
     </div>
 
-
     <div class="card">
 
         <div class="card-header">
-            <h3>Add Member</h3>
+            <h3>➕ Add Member</h3>
         </div>
 
         <form id="addMemberForm">
@@ -78,7 +74,7 @@
 
                 <input type="email"
                        id="memberEmail"
-                       placeholder="member@example.com"
+                       placeholder="friend@mail.com"
                        required>
 
             </div>
@@ -91,87 +87,60 @@
 
     </div>
 
-
     <div class="card">
 
         <div class="card-header">
 
-            <h3>Current Members</h3>
+            <h3>👯 Current Members</h3>
 
             <button onclick="loadMembers()">
-                Refresh
+                🔄 Refresh
             </button>
 
         </div>
 
-        <div class="table-wrapper">
+        <table>
 
-            <table>
+            <thead>
 
-                <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
 
-                    <tr>
-                        <th>User ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Action</th>
-                    </tr>
+            </thead>
 
-                </thead>
+            <tbody id="memberTable">
+            </tbody>
 
-                <tbody id="memberTable">
-                </tbody>
-
-            </table>
-
-            <div id="emptyMembers"
-                 class="empty-message"
-                 style="display:none;">
-
-                No members have been added yet.
-
-            </div>
-
-        </div>
+        </table>
 
     </div>
 
 </div>
 
+<script src="/js/app.js"></script>
 
 <script>
 
 const groupSelect =
-    document.getElementById("groupSelect");
+    document.getElementById(
+        "groupSelect"
+    );
 
 const selectedGroup =
-    localStorage.getItem("selectedGroupId");
-
-
-function showMessage(text, success) {
-
-    const message =
-        document.getElementById("message");
-
-    message.innerText = text;
-
-    message.className =
-        success
-        ? "message message-success"
-        : "message message-error";
-
-    message.style.display =
-        "block";
-}
+    localStorage.getItem(
+        "selectedGroupId"
+    );
 
 
 function loadGroups() {
 
     fetch("/groups")
 
-        .then(response =>
-            response.json()
-        )
+        .then(response => response.json())
 
         .then(groups => {
 
@@ -182,8 +151,7 @@ function loadGroups() {
                 const option =
                     document.createElement("option");
 
-                option.value =
-                    group.id;
+                option.value = group.id;
 
                 option.textContent =
                     group.name
@@ -191,22 +159,19 @@ function loadGroups() {
                     + group.id
                     + ")";
 
-                if (String(group.id)
-                        === selectedGroup) {
+                if (
+                    String(group.id)
+                    === selectedGroup
+                ) {
 
                     option.selected = true;
                 }
 
-                groupSelect.appendChild(
-                    option
-                );
+                groupSelect.appendChild(option);
 
             });
 
-            if (groups.length > 0) {
-
-                groupChanged();
-            }
+            loadMembers();
 
         });
 }
@@ -217,16 +182,6 @@ function groupChanged() {
     localStorage.setItem(
         "selectedGroupId",
         groupSelect.value
-    );
-
-    const selectedOption =
-        groupSelect.options[
-            groupSelect.selectedIndex
-        ];
-
-    localStorage.setItem(
-        "selectedGroupName",
-        selectedOption.text
     );
 
     loadMembers();
@@ -247,9 +202,7 @@ function loadMembers() {
         + groupId
     )
 
-        .then(response =>
-            response.json()
-        )
+        .then(response => response.json())
 
         .then(members => {
 
@@ -258,23 +211,7 @@ function loadMembers() {
                     "memberTable"
                 );
 
-            const empty =
-                document.getElementById(
-                    "emptyMembers"
-                );
-
             table.innerHTML = "";
-
-            if (members.length === 0) {
-
-                empty.style.display =
-                    "block";
-
-                return;
-            }
-
-            empty.style.display =
-                "none";
 
             members.forEach(member => {
 
@@ -284,11 +221,11 @@ function loadMembers() {
                 row.innerHTML = `
 
                     <td>
-                        ${member.user.id}
+                        #${member.user.id}
                     </td>
 
                     <td>
-                        ${member.user.name}
+                        👤 ${member.user.name}
                     </td>
 
                     <td>
@@ -297,13 +234,12 @@ function loadMembers() {
 
                     <td>
 
-                        <button
-                            class="button-danger"
-                            onclick="removeMember(
-                                ${member.user.id}
-                            )">
+                        <button class="button-danger"
+                                onclick="removeMember(
+                                    ${member.user.id}
+                                )">
 
-                            Remove
+                            🗑️ Remove
 
                         </button>
 
@@ -355,23 +291,16 @@ document.getElementById(
             }
         )
 
-            .then(response =>
-                response.text()
-            )
+            .then(response => response.text())
 
             .then(result => {
 
-                const success =
-                    result.includes(
-                        "successfully"
-                    );
-
-                showMessage(
-                    result,
-                    success
+                showResultModal(
+                    "👯 Add Member",
+                    result
                 );
 
-                if (success) {
+                if (result.includes("successfully")) {
 
                     document.getElementById(
                         "memberEmail"
@@ -387,12 +316,6 @@ document.getElementById(
 
 
 function removeMember(userId) {
-
-    if (!confirm(
-        "Remove this member from the group?"
-    )) {
-        return;
-    }
 
     const data =
         new URLSearchParams();
@@ -421,23 +344,16 @@ function removeMember(userId) {
         }
     )
 
-        .then(response =>
-            response.text()
-        )
+        .then(response => response.text())
 
         .then(result => {
 
-            const success =
-                result.includes(
-                    "successfully"
-                );
-
-            showMessage(
-                result,
-                success
+            showResultModal(
+                "🗑️ Remove Member",
+                result
             );
 
-            if (success) {
+            if (result.includes("successfully")) {
                 loadMembers();
             }
 

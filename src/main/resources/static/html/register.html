@@ -2,16 +2,9 @@
 <html>
 
 <head>
-
     <meta charset="UTF-8">
-
-    <title>
-        SplitXpence - Register
-    </title>
-
-    <link rel="stylesheet"
-          href="/css/style.css">
-
+    <title>SplitXpence - Register</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
@@ -22,78 +15,74 @@
 
         <div class="auth-brand">
 
-            <h1>SplitXpence</h1>
+            <h1>💸 SplitXpence</h1>
 
             <p>
-                Share expenses. Track balances. Settle easily.
+                Less maths. Less drama. More splitting. ✨
             </p>
 
         </div>
 
-
         <div class="auth-card">
 
-            <h2>Create Account</h2>
+            <h2>Join the squad 🚀</h2>
 
             <p class="auth-subtitle">
-                Register to start managing shared expenses.
+                Create your account and start splitting expenses.
             </p>
-
 
             <div id="message"
                  class="message">
             </div>
 
-
             <form id="registerForm">
 
                 <div class="form-group">
 
-                    <label>Name</label>
+                    <label>👤 Name</label>
 
                     <input type="text"
                            id="name"
+                           placeholder="Your name"
                            required>
 
                 </div>
 
-
                 <div class="form-group">
 
-                    <label>Email</label>
+                    <label>📧 Email</label>
 
                     <input type="email"
                            id="email"
+                           placeholder="you@mail.com"
                            required>
 
                 </div>
 
-
                 <div class="form-group">
 
-                    <label>Password</label>
+                    <label>🔐 Password</label>
 
                     <input type="password"
                            id="password"
                            minlength="4"
+                           placeholder="Create a password"
                            required>
 
                 </div>
 
-
                 <button type="submit">
-                    Create Account
+                    ✨ Create Account
                 </button>
 
             </form>
-
 
             <div class="auth-footer">
 
                 Already have an account?
 
-                <a href="/login.html">
-                    Login
+                <a href="/html/login.html">
+                    Login here 👋
                 </a>
 
             </div>
@@ -103,7 +92,6 @@
     </div>
 
 </div>
-
 
 <script>
 
@@ -120,25 +108,18 @@ document.getElementById(
 
         data.append(
             "name",
-            document.getElementById(
-                "name"
-            ).value
+            document.getElementById("name").value
         );
 
         data.append(
             "email",
-            document.getElementById(
-                "email"
-            ).value
+            document.getElementById("email").value
         );
 
         data.append(
             "password",
-            document.getElementById(
-                "password"
-            ).value
+            document.getElementById("password").value
         );
-
 
         fetch(
             "/register",
@@ -154,9 +135,7 @@ document.getElementById(
             }
         )
 
-            .then(response =>
-                response.text()
-            )
+            .then(response => response.text())
 
             .then(result => {
 
@@ -165,14 +144,14 @@ document.getElementById(
                         "message"
                     );
 
-
-                if (result.includes(
-                    "successfully"
-                )) {
+                if (
+                    result.includes(
+                        "successfully"
+                    )
+                ) {
 
                     message.innerText =
-                        result
-                        + ". Redirecting to login...";
+                        "Account created! 🎉 Redirecting to login...";
 
                     message.className =
                         "message message-success";
@@ -180,12 +159,11 @@ document.getElementById(
                     message.style.display =
                         "block";
 
-
                     setTimeout(
                         function() {
 
                             window.location.href =
-                                "/login.html";
+                                "/html/login.html";
 
                         },
                         1200
@@ -193,7 +171,6 @@ document.getElementById(
 
                     return;
                 }
-
 
                 message.innerText =
                     result;
@@ -212,5 +189,4 @@ document.getElementById(
 </script>
 
 </body>
-
 </html>

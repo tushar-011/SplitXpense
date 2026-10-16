@@ -11,17 +11,17 @@
 
 <header>
 
-    <h1>SplitXpence</h1>
+    <h1>💸 SplitXpence</h1>
 
     <nav>
-        <a href="/dashboard.html">Dashboard</a>
-        <a href="/groups.html">Groups</a>
-        <a href="/add-expense.html">Expenses</a>
-        <a href="/balance.html">Balances</a>
-        <a href="/settlement.html">Settlements</a>
-        <a href="/reports.html">Reports</a>
-        <a href="/profile.html">Profile</a>
-        <a href="/logout">Logout</a>
+        <a href="/html/dashboard.html">🏠 Dashboard</a>
+        <a href="/html/groups.html">👥 Groups</a>
+        <a href="/html/add-expense.html">💳 Expenses</a>
+        <a href="/html/balance.html">⚖️ Balances</a>
+        <a href="/html/settlement.html">🤝 Settlements</a>
+        <a href="/html/reports.html">📊 Reports</a>
+        <a href="/html/profile.html">👤 Profile</a>
+        <a href="/logout">🚪 Logout</a>
     </nav>
 
 </header>
@@ -29,14 +29,19 @@
 <div class="container">
 
     <div class="page-title">
-        <h2>Expense Management</h2>
-        <p>Add, view, search, edit and delete expenses.</p>
+
+        <h2>💳 Expense Management</h2>
+
+        <p>
+            Add, search, edit, split and manage your shared expenses.
+        </p>
+
     </div>
 
     <div class="card">
 
         <div class="card-header">
-            <h3>Add Expense</h3>
+            <h3>➕ Add Expense</h3>
         </div>
 
         <form id="addExpenseForm"
@@ -57,21 +62,26 @@
             <div class="form-grid">
 
                 <div class="form-group">
+
                     <label>Title</label>
 
                     <input type="text"
                            name="title"
+                           placeholder="Dinner 🍕"
                            required>
+
                 </div>
 
                 <div class="form-group">
+
                     <label>Amount</label>
 
                     <input type="number"
                            name="amount"
-                           min="0.01"
                            step="0.01"
+                           min="0.01"
                            required>
+
                 </div>
 
             </div>
@@ -79,11 +89,13 @@
             <div class="form-grid">
 
                 <div class="form-group">
+
                     <label>Date</label>
 
                     <input type="date"
                            name="expenseDate"
                            required>
+
                 </div>
 
                 <div class="form-group">
@@ -93,12 +105,12 @@
                     <select name="category"
                             required>
 
-                        <option value="Food">Food</option>
-                        <option value="Travel">Travel</option>
-                        <option value="Rent">Rent</option>
-                        <option value="Shopping">Shopping</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Other">Other</option>
+                        <option value="Food">🍕 Food</option>
+                        <option value="Travel">✈️ Travel</option>
+                        <option value="Rent">🏠 Rent</option>
+                        <option value="Shopping">🛍️ Shopping</option>
+                        <option value="Entertainment">🎬 Entertainment</option>
+                        <option value="Other">💸 Other</option>
 
                     </select>
 
@@ -108,29 +120,32 @@
 
             <div class="form-group">
 
-                <label>Paid By - Email</label>
+                <label>Paid By</label>
 
                 <input type="email"
                        name="payerEmail"
+                       placeholder="payer@mail.com"
                        required>
 
             </div>
 
             <div class="form-group">
 
-                <label>
-                    Participants
-                </label>
+                <label>Participants</label>
 
                 <input type="text"
                        name="participantEmails"
                        placeholder="user1@mail.com, user2@mail.com"
                        required>
 
+                <small>
+                    Separate multiple emails with commas.
+                </small>
+
             </div>
 
             <button type="submit">
-                Add Expense
+                ✨ Add & Split Expense
             </button>
 
         </form>
@@ -140,7 +155,7 @@
     <div class="card">
 
         <div class="card-header">
-            <h3>Search & Filter</h3>
+            <h3>🔍 Search & Filter</h3>
         </div>
 
         <form id="searchForm"
@@ -155,7 +170,7 @@
                         id="searchGroup">
 
                     <option value="">
-                        All Groups
+                        🌐 All Groups
                     </option>
 
                 </select>
@@ -165,10 +180,13 @@
             <div class="form-grid">
 
                 <div class="form-group">
+
                     <label>Title</label>
 
                     <input type="text"
-                           name="title">
+                           name="title"
+                           placeholder="Search expense">
+
                 </div>
 
                 <div class="form-group">
@@ -181,12 +199,12 @@
                             All Categories
                         </option>
 
-                        <option value="Food">Food</option>
-                        <option value="Travel">Travel</option>
-                        <option value="Rent">Rent</option>
-                        <option value="Shopping">Shopping</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Other">Other</option>
+                        <option value="Food">🍕 Food</option>
+                        <option value="Travel">✈️ Travel</option>
+                        <option value="Rent">🏠 Rent</option>
+                        <option value="Shopping">🛍️ Shopping</option>
+                        <option value="Entertainment">🎬 Entertainment</option>
+                        <option value="Other">💸 Other</option>
 
                     </select>
 
@@ -197,21 +215,27 @@
             <div class="form-grid">
 
                 <div class="form-group">
+
                     <label>Start Date</label>
+
                     <input type="date"
                            name="startDate">
+
                 </div>
 
                 <div class="form-group">
+
                     <label>End Date</label>
+
                     <input type="date"
                            name="endDate">
+
                 </div>
 
             </div>
 
             <button type="submit">
-                Search
+                🔎 Search Expenses
             </button>
 
         </form>
@@ -221,7 +245,7 @@
     <div class="card">
 
         <div class="card-header">
-            <h3>View Group Expenses</h3>
+            <h3>📋 View Group Expenses</h3>
         </div>
 
         <form id="viewForm"
@@ -250,7 +274,7 @@
     <div class="card">
 
         <div class="card-header">
-            <h3>View Expense Split</h3>
+            <h3>🧩 View Expense Split</h3>
         </div>
 
         <form id="splitForm"
@@ -278,7 +302,7 @@
     <div class="card">
 
         <div class="card-header">
-            <h3>Edit Expense</h3>
+            <h3>✏️ Edit Expense</h3>
         </div>
 
         <form id="editForm"
@@ -339,12 +363,12 @@
                     <select name="category"
                             required>
 
-                        <option value="Food">Food</option>
-                        <option value="Travel">Travel</option>
-                        <option value="Rent">Rent</option>
-                        <option value="Shopping">Shopping</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Other">Other</option>
+                        <option value="Food">🍕 Food</option>
+                        <option value="Travel">✈️ Travel</option>
+                        <option value="Rent">🏠 Rent</option>
+                        <option value="Shopping">🛍️ Shopping</option>
+                        <option value="Entertainment">🎬 Entertainment</option>
+                        <option value="Other">💸 Other</option>
 
                     </select>
 
@@ -353,7 +377,7 @@
             </div>
 
             <button type="submit">
-                Update Expense
+                💾 Update Expense
             </button>
 
         </form>
@@ -363,7 +387,7 @@
     <div class="card">
 
         <div class="card-header">
-            <h3>Delete Expense</h3>
+            <h3>🗑️ Delete Expense</h3>
         </div>
 
         <form id="deleteForm"
@@ -380,8 +404,8 @@
 
             </div>
 
-            <button class="button-danger"
-                    type="submit">
+            <button type="submit"
+                    class="button-danger">
 
                 Delete Expense
 
@@ -393,9 +417,7 @@
 
 </div>
 
-
 <script src="/js/app.js"></script>
-
 
 <script>
 
@@ -409,72 +431,50 @@ function loadGroups() {
 
     fetch("/groups")
 
-        .then(response =>
-            response.json()
-        )
+        .then(response => response.json())
 
         .then(groups => {
 
-            const addGroup =
-                document.getElementById(
-                    "addGroup"
-                );
-
-            const searchGroup =
-                document.getElementById(
-                    "searchGroup"
-                );
-
-            const viewGroup =
-                document.getElementById(
-                    "viewGroup"
-                );
-
+            const dropdowns = [
+                document.getElementById("addGroup"),
+                document.getElementById("searchGroup"),
+                document.getElementById("viewGroup")
+            ];
 
             groups.forEach(group => {
 
-                [addGroup, searchGroup, viewGroup]
-                    .forEach(dropdown => {
+                dropdowns.forEach(dropdown => {
 
-                        const option =
-                            document.createElement(
-                                "option"
-                            );
+                    const option =
+                        document.createElement("option");
 
-                        option.value =
-                            group.id;
+                    option.value = group.id;
 
-                        option.textContent =
-                            group.name
-                            + " (ID: "
-                            + group.id
-                            + ")";
+                    option.textContent =
+                        group.name
+                        + " (ID: "
+                        + group.id
+                        + ")";
 
-                        if (
-                            String(group.id)
-                            === selectedGroup
-                        ) {
+                    if (
+                        String(group.id)
+                        === selectedGroup
+                    ) {
 
-                            option.selected =
-                                true;
-                        }
+                        option.selected = true;
+                    }
 
-                        dropdown.appendChild(
-                            option
-                        );
+                    dropdown.appendChild(option);
 
-                    });
+                });
 
             });
 
         });
-
 }
 
 
-function setupPostForm(
-        id,
-        title) {
+function postForm(id, title) {
 
     document.getElementById(id)
         .addEventListener(
@@ -487,14 +487,13 @@ function setupPostForm(
                     this,
                     title
                 );
+
             }
         );
 }
 
 
-function setupGetForm(
-        id,
-        title) {
+function getForm(id, title) {
 
     document.getElementById(id)
         .addEventListener(
@@ -514,39 +513,40 @@ function setupGetForm(
                     + query,
                     title
                 );
+
             }
         );
 }
 
 
-setupPostForm(
+postForm(
     "addExpenseForm",
-    "Add Expense"
+    "✨ Expense Added"
 );
 
-setupGetForm(
+getForm(
     "searchForm",
-    "Search Results"
+    "🔍 Search Results"
 );
 
-setupGetForm(
+getForm(
     "viewForm",
-    "Group Expenses"
+    "📋 Group Expenses"
 );
 
-setupGetForm(
+getForm(
     "splitForm",
-    "Expense Split"
+    "🧩 Expense Split"
 );
 
-setupPostForm(
+postForm(
     "editForm",
-    "Edit Expense"
+    "✏️ Edit Expense"
 );
 
-setupPostForm(
+postForm(
     "deleteForm",
-    "Delete Expense"
+    "🗑️ Delete Expense"
 );
 
 

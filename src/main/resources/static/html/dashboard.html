@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        SplitXpence - Dashboard
+    </title>
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>💸 SplitXpence</h1>
+
+    <nav>
+        <a href="/html/dashboard.html">🏠 Dashboard</a>
+        <a href="/html/groups.html">👥 Groups</a>
+        <a href="/html/add-expense.html">💳 Expenses</a>
+        <a href="/html/balance.html">⚖️ Balances</a>
+        <a href="/html/settlement.html">🤝 Settlements</a>
+        <a href="/html/reports.html">📊 Reports</a>
+        <a href="/html/profile.html">👤 Profile</a>
+        <a href="/logout">🚪 Logout</a>
+    </nav>
+
+</header>
+
+
+<div class="container">
+
+    <div class="page-title">
+
+        <h2 id="welcome">
+            Welcome 👋
+        </h2>
+
+        <p>
+            Here's your money-sharing snapshot for today.
+        </p>
+
+    </div>
+
+
+    <!-- DASHBOARD STATS -->
+
+    <div class="dashboard-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                👥 Total Groups
+            </div>
+
+            <div class="stat-value"
+                 id="totalGroups">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                💳 Total Expenses
+            </div>
+
+            <div class="stat-value">
+
+                ₹<span id="totalExpenses">
+                    0
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                📤 You Owe
+            </div>
+
+            <div class="stat-value">
+
+                ₹<span id="amountYouOwe">
+                    0
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                📥 Owed To You
+            </div>
+
+            <div class="stat-value">
+
+                ₹<span id="amountOwedToYou">
+                    0
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h3>
+                ⚡ Quick Actions
+            </h3>
+
+        </div>
+
+
+        <div class="button-row">
+
+            <a class="button-link"
+               href="/html/groups.html">
+
+                👥 Manage Groups
+
+            </a>
+
+
+            <a class="button-link"
+               href="/html/add-expense.html">
+
+                ➕ Add Expense
+
+            </a>
+
+
+            <a class="button-link"
+               href="/html/balance.html">
+
+                ⚖️ Check Balances
+
+            </a>
+
+
+            <a class="button-link"
+               href="/html/settlement.html">
+
+                🤝 Settle Up
+
+            </a>
+
+
+            <a class="button-link button-secondary"
+               href="/html/reports.html">
+
+                📊 View Reports
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- RECENT EXPENSES -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h3>
+                🧾 Recent Expenses
+            </h3>
+
+
+            <a class="button-link button-secondary"
+               href="/html/add-expense.html">
+
+                View All
+
+            </a>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Expense</th>
+
+                    <th>Group</th>
+
+                    <th>Category</th>
+
+                    <th>Amount</th>
+
+                    <th>Paid By</th>
+
+                    <th>Date</th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody id="expenseTable">
+                </tbody>
+
+            </table>
+
+
+            <div id="emptyExpenses"
+                 class="empty-message"
+                 style="display:none;">
+
+                ✨ No expenses yet.
+                Add your first one and get started.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SHORTCUT SECTION -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h3>
+                🚀 Explore SplitXpence
+            </h3>
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    👥 Groups
+                </div>
+
+                <p>
+                    Create trips, flatmate groups,
+                    events and shared plans.
+                </p>
+
+                <a class="button-link"
+                   href="/html/groups.html">
+
+                    Open Groups
+
+                </a>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    ⚖️ Balances
+                </div>
+
+                <p>
+                    Instantly check who owes
+                    whom and how much.
+                </p>
+
+                <a class="button-link"
+                   href="/html/balance.html">
+
+                    Check Balance
+
+                </a>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    📊 Reports
+                </div>
+
+                <p>
+                    Understand where your
+                    group money is going.
+                </p>
+
+                <a class="button-link"
+                   href="/html/reports.html">
+
+                    Open Reports
+
+                </a>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    👤 Profile
+                </div>
+
+                <p>
+                    Manage your friends,
+                    account and groups.
+                </p>
+
+                <a class="button-link"
+                   href="/html/profile.html">
+
+                    View Profile
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+fetch("/dashboard-data")
+
+    .then(response => {
+
+        if (!response.ok) {
+
+            throw new Error();
+
+        }
+
+        return response.json();
+
+    })
+
+    .then(data => {
+
+        document.getElementById(
+            "welcome"
+        ).innerText =
+            "Hey, "
+            + data.userName
+            + " 👋";
+
+
+        document.getElementById(
+            "totalGroups"
+        ).innerText =
+            data.totalGroups;
+
+
+        document.getElementById(
+            "totalExpenses"
+        ).innerText =
+            data.totalExpenses;
+
+
+        document.getElementById(
+            "amountYouOwe"
+        ).innerText =
+            data.amountYouOwe;
+
+
+        document.getElementById(
+            "amountOwedToYou"
+        ).innerText =
+            data.amountOwedToYou;
+
+
+        const table =
+            document.getElementById(
+                "expenseTable"
+            );
+
+
+        const empty =
+            document.getElementById(
+                "emptyExpenses"
+            );
+
+
+        table.innerHTML = "";
+
+
+        if (
+            !data.recentExpenses
+            ||
+            data.recentExpenses.length === 0
+        ) {
+
+            empty.style.display =
+                "block";
+
+            return;
+        }
+
+
+        empty.style.display =
+            "none";
+
+
+        data.recentExpenses
+            .forEach(expense => {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>
+                        #${expense.id}
+                    </td>
+
+                    <td>
+                        <strong>
+                            ${expense.title}
+                        </strong>
+                    </td>
+
+                    <td>
+                        👥 ${expense.group}
+                    </td>
+
+                    <td>
+                        ${categoryEmoji(
+                            expense.category
+                        )}
+                        ${expense.category}
+                    </td>
+
+                    <td>
+                        <strong>
+                            ₹${expense.amount}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${expense.paidBy}
+                    </td>
+
+                    <td>
+                        ${expense.date}
+                    </td>
+                `;
+
+
+                table.appendChild(
+                    row
+                );
+
+            });
+
+    })
+
+    .catch(() => {
+
+        window.location.href =
+            "/html/login.html";
+
+    });
+
+
+function categoryEmoji(category) {
+
+    switch (category) {
+
+        case "Food":
+            return "🍕";
+
+        case "Travel":
+            return "✈️";
+
+        case "Rent":
+            return "🏠";
+
+        case "Shopping":
+            return "🛍️";
+
+        case "Entertainment":
+            return "🎬";
+
+        default:
+            return "💸";
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>

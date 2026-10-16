@@ -2,16 +2,9 @@
 <html>
 
 <head>
-
     <meta charset="UTF-8">
-
-    <title>
-        SplitXpence - Login
-    </title>
-
-    <link rel="stylesheet"
-          href="/css/style.css">
-
+    <title>SplitXpence - Login</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
@@ -22,66 +15,62 @@
 
         <div class="auth-brand">
 
-            <h1>SplitXpence</h1>
+            <h1>💸 SplitXpence</h1>
 
             <p>
-                Simple group expense management
+                Split bills. Save friendships. Stay unbothered. ✨
             </p>
 
         </div>
 
-
         <div class="auth-card">
 
-            <h2>Login</h2>
+            <h2>Welcome back 👋</h2>
 
             <p class="auth-subtitle">
-                Sign in to access your groups and expenses.
+                Login and see who's still owing you money 👀
             </p>
-
 
             <div id="message"
                  class="message">
             </div>
 
-
             <form id="loginForm">
 
                 <div class="form-group">
 
-                    <label>Email</label>
+                    <label>📧 Email</label>
 
                     <input type="email"
                            id="email"
+                           placeholder="you@mail.com"
                            required>
 
                 </div>
-
 
                 <div class="form-group">
 
-                    <label>Password</label>
+                    <label>🔐 Password</label>
 
                     <input type="password"
                            id="password"
+                           placeholder="••••••••"
                            required>
 
                 </div>
 
-
                 <button type="submit">
-                    Login
+                    🚀 Login
                 </button>
 
             </form>
 
-
             <div class="auth-footer">
 
-                Don't have an account?
+                New here?
 
-                <a href="/register.html">
-                    Create Account
+                <a href="/html/register.html">
+                    Create your account ✨
                 </a>
 
             </div>
@@ -91,7 +80,6 @@
     </div>
 
 </div>
-
 
 <script>
 
@@ -108,18 +96,13 @@ document.getElementById(
 
         data.append(
             "email",
-            document.getElementById(
-                "email"
-            ).value
+            document.getElementById("email").value
         );
 
         data.append(
             "password",
-            document.getElementById(
-                "password"
-            ).value
+            document.getElementById("password").value
         );
-
 
         fetch(
             "/login",
@@ -135,22 +118,21 @@ document.getElementById(
             }
         )
 
-            .then(response =>
-                response.text()
-            )
+            .then(response => response.text())
 
             .then(result => {
 
-                if (result.includes(
-                    "Login successful"
-                )) {
+                if (
+                    result.includes(
+                        "Login successful"
+                    )
+                ) {
 
                     window.location.href =
-                        "/dashboard.html";
+                        "/html/dashboard.html";
 
                     return;
                 }
-
 
                 const message =
                     document.getElementById(
@@ -174,5 +156,4 @@ document.getElementById(
 </script>
 
 </body>
-
 </html>

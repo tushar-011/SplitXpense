@@ -2,57 +2,47 @@
 <html>
 
 <head>
-
     <meta charset="UTF-8">
-
-    <title>
-        SplitXpence - Profile
-    </title>
-
-    <link rel="stylesheet"
-          href="/css/style.css">
-
+    <title>SplitXpence - Profile</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 
 <header>
 
-    <h1>SplitXpence</h1>
+    <h1>💸 SplitXpence</h1>
 
     <nav>
-        <a href="/dashboard.html">Dashboard</a>
-        <a href="/groups.html">Groups</a>
-        <a href="/add-expense.html">Expenses</a>
-        <a href="/balance.html">Balances</a>
-        <a href="/settlement.html">Settlements</a>
-        <a href="/reports.html">Reports</a>
-        <a href="/profile.html">Profile</a>
-        <a href="/logout">Logout</a>
+        <a href="/html/dashboard.html">🏠 Dashboard</a>
+        <a href="/html/groups.html">👥 Groups</a>
+        <a href="/html/add-expense.html">💳 Expenses</a>
+        <a href="/html/balance.html">⚖️ Balances</a>
+        <a href="/html/settlement.html">🤝 Settlements</a>
+        <a href="/html/reports.html">📊 Reports</a>
+        <a href="/html/profile.html">👤 Profile</a>
+        <a href="/logout">🚪 Logout</a>
     </nav>
 
 </header>
-
 
 <div class="container">
 
     <div class="page-title">
 
-        <h2>User Profile</h2>
+        <h2>👤 My Profile</h2>
 
         <p>
-            Manage your account, friends and groups.
+            Your account, your people, your groups ✨
         </p>
 
     </div>
 
-
     <div class="card">
 
         <div class="card-header">
-            <h3>Account Details</h3>
+            <h3>🪪 Account Details</h3>
         </div>
-
 
         <table>
 
@@ -79,13 +69,11 @@
 
     </div>
 
-
     <div class="card">
 
         <div class="card-header">
-            <h3>Add Friend</h3>
+            <h3>🤝 Add Friend</h3>
         </div>
-
 
         <form id="friendForm"
               action="/add-friend"
@@ -97,26 +85,24 @@
 
                 <input type="email"
                        name="email"
+                       placeholder="friend@mail.com"
                        required>
 
             </div>
 
-
             <button type="submit">
-                Add Friend
+                ➕ Add Friend
             </button>
 
         </form>
 
     </div>
 
-
     <div class="card">
 
         <div class="card-header">
-            <h3>My Friends</h3>
+            <h3>👯 My Friends</h3>
         </div>
-
 
         <table>
 
@@ -138,13 +124,11 @@
 
     </div>
 
-
     <div class="card">
 
         <div class="card-header">
-            <h3>My Groups</h3>
+            <h3>👥 My Groups</h3>
         </div>
-
 
         <table>
 
@@ -168,9 +152,7 @@
 
 </div>
 
-
 <script src="/js/app.js"></script>
-
 
 <script>
 
@@ -178,9 +160,7 @@ function loadProfile() {
 
     fetch("/profile")
 
-        .then(response =>
-            response.json()
-        )
+        .then(response => response.json())
 
         .then(profile => {
 
@@ -207,9 +187,7 @@ function loadFriends() {
 
     fetch("/friends")
 
-        .then(response =>
-            response.json()
-        )
+        .then(response => response.json())
 
         .then(friends => {
 
@@ -220,23 +198,17 @@ function loadFriends() {
 
             table.innerHTML = "";
 
-
             friends.forEach(friend => {
 
                 const row =
-                    document.createElement(
-                        "tr"
-                    );
-
+                    document.createElement("tr");
 
                 row.innerHTML = `
 
-                    <td>
-                        ${friend.userId}
-                    </td>
+                    <td>#${friend.userId}</td>
 
                     <td>
-                        ${friend.name}
+                        👤 ${friend.name}
                     </td>
 
                     <td>
@@ -245,19 +217,17 @@ function loadFriends() {
 
                     <td>
 
-                        <button
-                            class="button-danger"
-                            onclick="removeFriend(
-                                ${friend.relationId}
-                            )">
+                        <button class="button-danger"
+                                onclick="removeFriend(
+                                    ${friend.relationId}
+                                )">
 
-                            Remove
+                            🗑️ Remove
 
                         </button>
 
                     </td>
                 `;
-
 
                 table.appendChild(row);
 
@@ -271,9 +241,7 @@ function loadGroups() {
 
     fetch("/groups")
 
-        .then(response =>
-            response.json()
-        )
+        .then(response => response.json())
 
         .then(groups => {
 
@@ -284,20 +252,18 @@ function loadGroups() {
 
             table.innerHTML = "";
 
-
             groups.forEach(group => {
 
                 const row =
-                    document.createElement(
-                        "tr"
-                    );
-
+                    document.createElement("tr");
 
                 row.innerHTML = `
 
-                    <td>${group.id}</td>
+                    <td>#${group.id}</td>
 
-                    <td>${group.name}</td>
+                    <td>
+                        👥 ${group.name}
+                    </td>
 
                     <td>
                         ${group.description || "-"}
@@ -307,24 +273,22 @@ function loadGroups() {
 
                         <div class="button-row">
 
-                            <button
-                                onclick="editGroup(
-                                    ${group.id},
-                                    '${group.name}',
-                                    '${group.description || ""}'
-                                )">
+                            <button onclick="editGroup(
+                                ${group.id},
+                                '${group.name}',
+                                '${group.description || ""}'
+                            )">
 
-                                Edit
+                                ✏️ Edit
 
                             </button>
 
-                            <button
-                                class="button-danger"
-                                onclick="deleteGroup(
-                                    ${group.id}
-                                )">
+                            <button class="button-danger"
+                                    onclick="deleteGroup(
+                                        ${group.id}
+                                    )">
 
-                                Delete
+                                🗑️ Delete
 
                             </button>
 
@@ -332,7 +296,6 @@ function loadGroups() {
 
                     </td>
                 `;
-
 
                 table.appendChild(row);
 
@@ -352,14 +315,12 @@ document.getElementById(
 
         submitFormAndShow(
             this,
-            "Add Friend",
+            "🤝 Add Friend",
             function(result) {
 
                 if (
                     String(result)
-                    .includes(
-                        "successfully"
-                    )
+                    .includes("successfully")
                 ) {
 
                     document.getElementById(
@@ -376,8 +337,7 @@ document.getElementById(
 );
 
 
-function removeFriend(
-        relationId) {
+function removeFriend(relationId) {
 
     const data =
         new URLSearchParams();
@@ -386,7 +346,6 @@ function removeFriend(
         "relationId",
         relationId
     );
-
 
     fetch(
         "/remove-friend",
@@ -402,23 +361,16 @@ function removeFriend(
         }
     )
 
-        .then(response =>
-            response.text()
-        )
+        .then(response => response.text())
 
         .then(result => {
 
             showResultModal(
-                "Remove Friend",
+                "🗑️ Remove Friend",
                 result
             );
 
-            if (
-                result.includes(
-                    "successfully"
-                )
-            ) {
-
+            if (result.includes("successfully")) {
                 loadFriends();
             }
 
@@ -441,7 +393,6 @@ function editGroup(
         return;
     }
 
-
     const description =
         prompt(
             "Description:",
@@ -452,7 +403,6 @@ function editGroup(
         return;
     }
 
-
     const data =
         new URLSearchParams();
 
@@ -462,7 +412,6 @@ function editGroup(
         "description",
         description
     );
-
 
     fetch(
         "/edit-group",
@@ -478,23 +427,16 @@ function editGroup(
         }
     )
 
-        .then(response =>
-            response.text()
-        )
+        .then(response => response.text())
 
         .then(result => {
 
             showResultModal(
-                "Edit Group",
+                "✏️ Edit Group",
                 result
             );
 
-            if (
-                result.includes(
-                    "successfully"
-                )
-            ) {
-
+            if (result.includes("successfully")) {
                 loadGroups();
             }
 
@@ -510,7 +452,6 @@ function deleteGroup(id) {
         return;
     }
 
-
     const data =
         new URLSearchParams();
 
@@ -518,7 +459,6 @@ function deleteGroup(id) {
         "groupId",
         id
     );
-
 
     fetch(
         "/delete-group",
@@ -534,23 +474,16 @@ function deleteGroup(id) {
         }
     )
 
-        .then(response =>
-            response.text()
-        )
+        .then(response => response.text())
 
         .then(result => {
 
             showResultModal(
-                "Delete Group",
+                "🗑️ Delete Group",
                 result
             );
 
-            if (
-                result.includes(
-                    "successfully"
-                )
-            ) {
-
+            if (result.includes("successfully")) {
                 loadGroups();
             }
 
@@ -565,5 +498,4 @@ loadGroups();
 </script>
 
 </body>
-
 </html>

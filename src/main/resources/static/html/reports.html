@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SplitXpence - Reports</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<header>
+
+    <h1>💸 SplitXpence</h1>
+
+    <nav>
+        <a href="/html/dashboard.html">🏠 Dashboard</a>
+        <a href="/html/groups.html">👥 Groups</a>
+        <a href="/html/add-expense.html">💳 Expenses</a>
+        <a href="/html/balance.html">⚖️ Balances</a>
+        <a href="/html/settlement.html">🤝 Settlements</a>
+        <a href="/html/reports.html">📊 Reports</a>
+        <a href="/html/profile.html">👤 Profile</a>
+        <a href="/logout">🚪 Logout</a>
+    </nav>
+
+</header>
+
+<div class="container">
+
+    <div class="page-title">
+
+        <h2>📊 Reports</h2>
+
+        <p>
+            Turn your expense chaos into actual useful insights ✨
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>👥 Select Group</h3>
+        </div>
+
+        <div class="form-group">
+
+            <label>Group</label>
+
+            <select id="reportGroup">
+            </select>
+
+        </div>
+
+    </div>
+
+    <div class="dashboard-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                🧾 Group Summary
+            </div>
+
+            <p>
+                Total expenses and transaction count.
+            </p>
+
+            <button onclick="groupSummary()">
+                Open Summary
+            </button>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                🍕 Category Spending
+            </div>
+
+            <p>
+                See where your money disappeared 👀
+            </p>
+
+            <button onclick="categoryReport()">
+                View Categories
+            </button>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                📅 Monthly Spending
+            </div>
+
+            <p>
+                Track spending month by month.
+            </p>
+
+            <button onclick="monthlyReport()">
+                Monthly Report
+            </button>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                📜 Expense History
+            </div>
+
+            <p>
+                Look back at every recorded expense.
+            </p>
+
+            <button onclick="expenseHistory()">
+                View History
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="/js/app.js"></script>
+
+<script>
+
+const groupSelect =
+    document.getElementById(
+        "reportGroup"
+    );
+
+const selectedGroup =
+    localStorage.getItem(
+        "selectedGroupId"
+    );
+
+
+fetch("/groups")
+
+    .then(response => response.json())
+
+    .then(groups => {
+
+        groups.forEach(group => {
+
+            const option =
+                document.createElement("option");
+
+            option.value = group.id;
+
+            option.textContent =
+                group.name
+                + " (ID: "
+                + group.id
+                + ")";
+
+            if (
+                String(group.id)
+                === selectedGroup
+            ) {
+
+                option.selected = true;
+            }
+
+            groupSelect.appendChild(option);
+
+        });
+
+    });
+
+
+function selectedId() {
+
+    const id =
+        groupSelect.value;
+
+    if (!id) {
+
+        showResultModal(
+            "📊 Reports",
+            "Please select a group first."
+        );
+
+        return null;
+    }
+
+    localStorage.setItem(
+        "selectedGroupId",
+        id
+    );
+
+    return id;
+}
+
+
+function groupSummary() {
+
+    const id =
+        selectedId();
+
+    if (!id) {
+        return;
+    }
+
+    fetchAndShow(
+        "/group-summary?groupId="
+        + id,
+
+        "🧾 Group Summary"
+    );
+}
+
+
+function categoryReport() {
+
+    const id =
+        selectedId();
+
+    if (!id) {
+        return;
+    }
+
+    fetchAndShow(
+        "/category-report?groupId="
+        + id,
+
+        "🍕 Category Spending"
+    );
+}
+
+
+function monthlyReport() {
+
+    const id =
+        selectedId();
+
+    if (!id) {
+        return;
+    }
+
+    fetchAndShow(
+        "/monthly-report?groupId="
+        + id,
+
+        "📅 Monthly Spending"
+    );
+}
+
+
+function expenseHistory() {
+
+    const id =
+        selectedId();
+
+    if (!id) {
+        return;
+    }
+
+    fetchAndShow(
+        "/expense-history?groupId="
+        + id,
+
+        "📜 Expense History"
+    );
+}
+
+</script>
+
+</body>
+</html>
